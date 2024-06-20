@@ -103,7 +103,7 @@
                             <input type="{% if question.is_multiple %}checkbox{% else %}radio{% endif %}"
                                    value="{{ answer.id }}" name="{{ question.id }}" id="{{ answer.id }}"
                                    class="answer_checkbox">
-                            <label for="{{ answer.id }}" class="answer_label col-3">{{ answer.text }}</label>
+                            <label for="{{ answer.id }}" class="answer_label col-12 col-md-3">{{ answer.text }}</label>
                         {% endfor %}
                     </div>
                     <hr>
