@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Кабинет
+{% endblock %}
+
+{% block name %}
+    Кабинет
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="">
+                <i class="feather icon-home"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#">Кабинет</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'app:update_user' %}" method="post" class="d-block m-auto"
+          style="max-width: 1280px; width: 90%;">
+        {% csrf_token %}
+        <div class="row justify-content-between">
+            <div class="mb-1 col-4 p-2" style="box-sizing: border-box">
+                <label for="">Фамилия</label>
+                <input type="text" class="form-control" name="last_name" value="{{ user.last_name }}">
+            </div>
+            <div class="mb-1 col-4 p-2" style="box-sizing: border-box">
+                <label for="">Имя</label>
+                <input type="text" class="form-control" name="first_name" value="{{ user.first_name }}">
+            </div>
+            <div class="mb-1 col-4 p-2" style="box-sizing: border-box">
+                <label for="">Отчество</label>
+                <input type="text" class="form-control" name="patronymic"
+                       value="{{ user.profile.patronymic|default:'' }}">
+            </div>
+            <div class="mb-1 col-12 p-2" style="box-sizing: border-box">
+                <label for="">Эл. почта</label>
+                <input type="text" class="form-control" name="username"
+                       value="{{ user.username|default:'' }}">
+            </div>
+            <div class="mb-1 col-12 p-2" style="box-sizing: border-box">
+                <label for="" class="d-block">Реферальная ссылка</label>
+                <input type="text" class="form-control w-auto d-inline" disabled
+                       value="{{ user.referral.code }}">
+                <button type="button" class="btn btn-success d-inline text-center" style="margin-bottom: 4px"
+                        onclick="copyReferralCode('{{ user.referral.code }}')">
+                    <i class="fa fa-copy m-auto"></i>
+                </button>
+            </div>
+            <div class="col-3 align-self-center p-2 m-auto d-block" style="box-sizing: border-box">
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-edit"></i>
+                    Изменить
+                </button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block script %}
+    <script>
+
+    </script>
+{% endblock %}

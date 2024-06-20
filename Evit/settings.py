@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app'
+    'landing',
+    'app',
 ]
 
 MIDDLEWARE = [
@@ -103,10 +104,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_REDIRECT_URL = 'app:home'
+LOGIN_URL = 'landing:auth'
+LOGOUT_REDIRECT_URL = 'landing:home'
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -123,3 +128,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ansagankabdolla4@gmail.com'
+# EMAIL_HOST_PASSWORD = 'bgiebhopeeoxwrse'
+EMAIL_HOST_PASSWORD = 'rqmr wiyu sckf kfgp'
+# EMAIL_HOST_PASSWORD = 'New_account_google'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

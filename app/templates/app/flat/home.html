@@ -4,3 +4,76 @@
     Главная
 {% endblock %}
 
+{% block name %}
+    О нас
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="">
+                <i class="feather icon-home"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#">Главная</a>
+        </li>
+    </ul>
+    <style>
+        .project-item-card {
+            border-radius: 5px;
+            background-color: #ffffff;
+            max-width: 360px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 20px;
+            font-weight: 600;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            transition: .3s;
+        }
+
+        .project-item-card svg {
+            width: 64px;
+            height: 64px;
+            margin-right: 10px;
+        }
+
+
+        .project-item-card:hover {
+            box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+        }
+
+        .project-item-card:hover svg.heart {
+            stroke: red;
+            fill: #ff5050;
+        }
+
+
+        .project-item-card:hover svg.chart {
+            stroke: orange;
+            fill: #ffd687;
+        }
+
+
+        .project-item-card:hover svg.dynamic {
+            stroke: #0051ff;
+        }
+
+        .project-item-cards {
+            display: flex;
+            list-style: none;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-item-card {
+            height: 120px !important;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% include 'landing/include/about.html' %}
+{% endblock %}

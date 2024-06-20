@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ quiz.name }}
+{% endblock %}
+
+{% block name %}
+    {{ quiz.name }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="">
+                <i class="feather icon-home"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#">Управление</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'app:management_quiz_list' %}">Тесты</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#">{{ quiz.name }}</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    {% if questions.exists %}
+        <table class="table table-responsive-md table-bordered">
+            <thead></thead>
+            <tbody>
+            {% for question in questions %}
+                <tr>
+                    <td class="bg-info text-center text-center text-white">
+                        {{ forloop.counter }}
+                    </td>
+                    <th class="bg-info text-center text-white" colspan="2">{{ question.text }}</th>
+                </tr>
+                {% for answer in question.answers.all %}
+                    <tr>
+                        <td class="text-center">{{ forloop.counter }}</td>
+                        <td>{{ answer.text }}</td>
+                        <td>{{ answer.duration }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+    {% endif %}
+{% endblock %}

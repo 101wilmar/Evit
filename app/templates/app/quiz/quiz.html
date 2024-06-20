@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Прохождение тестирования
+{% endblock %}
+
+{% block name %}
+    Тест на долголетие
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="">
+                <i class="feather icon-home"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'app:quiz_list' %}">
+                Тесты
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#">Прохождение</a>
+        </li>
+    </ul>
+    <style>
+        .answer_checkbox {
+            display: none;
+        }
+
+
+        .answer_label {
+            padding: 10px 20px;
+            border: 1px solid grey;
+            border-radius: 5px;
+            margin: 5px 30px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .answer_checkbox:checked + .answer_label {
+            background-color: #c5ffe4;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'app:save_quiz' %}" method="post" class="d-block m-auto"
+          style="max-width: 1280px; width: 90%;">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="">ФИО</label>
+            <input type="text" class="form-control text-center" value="{{ request.user.get_full_name|default:'' }}"
+                   placeholder="Иванов Иван Иванович" name="full_name">
+        </div>
+        <div class="row mb-3">
+            <div class="col-4">
+                <label for="">Возраст</label>
+                <input type="number" class="form-control" value=""
+                       placeholder="..лет" name="current_age">
+            </div>
+            <div class="col-4">
+                <label for="">Рост</label>
+                <input type="number" class="form-control" value=""
+                       placeholder="..см" name="height">
+            </div>
+
+            <div class="col-4">
+                <label for="">Вес</label>
+                <input type="number" class="form-control" value=""
+                       placeholder="..кг" name="weight">
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="">Субъект РФ вашего постоянного место жительства</label>
+            <select name="location" id="" class="form-control">
+                {% for location in locations %}
+                    <option value="{{ location.id }}">{{ location.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% for question in questions %}
+            {#            {% if 0 %}#}
+            {% if question.display_type == 'select' %}
+                <div class="mb-3">
+                    <label for="">{{ question.text }}</label>
+                    <select name="{{ question.id }}" id="" class="form-control select"
+                            {% if question.is_multiple %}multiple{% endif %}>
+                        {% if not question.is_required %}
+                            <option value="">-</option>
+                        {% endif %}
+                        {% for answer in question.answers.all %}
+                            <option value="{{ answer.id }}">{{ answer.text }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% elif question.display_type == 'switch' %}
+                <div class="mb-3">
+                    <div>{{ question.text }}</div>
+                    <div class="mt-2 row justify-content-center">
+                        {% for answer in question.answers.all %}
+                            <input type="{% if question.is_multiple %}checkbox{% else %}radio{% endif %}"
+                                   value="{{ answer.id }}" name="{{ question.id }}" id="{{ answer.id }}"
+                                   class="answer_checkbox">
+                            <label for="{{ answer.id }}" class="answer_label col-3">{{ answer.text }}</label>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success m-auto d-block" style="width: 230px">
+                <i class="fa fa-calculator"></i>
+                Расчитать
+            </button>
+        </div>
+    </form>
+{% endblock %}

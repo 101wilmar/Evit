@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Рефералы
+{% endblock %}
+
+{% block name %}
+    Рефералы
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="">
+                <i class="feather icon-home"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#">Рефералы</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    {% if referred_users.exists %}
+        <table class="table table-bordered table-responsive-md table-hover table-sm text-center w-100">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>ФИО</th>
+                <th>Дата подключения</th>
+                <th>Статус</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for referred_user in referred_users %}
+                <tr>
+                    <td class="align-middle">{{ forloop.counter }}</td>
+                    <td class="align-middle">{{ referred_user.get_full_name }}</td>
+                    <td class="align-middle">{{ referred_user.date_joined }}</td>
+                    <td class="align-middle">
+                        {% if referred_user.is_active %}
+                            <button class="btn btn-sm btn-success p-1 text-center" style="width: 180px">
+                                <i class="feather icon-check m-auto"></i> активирован
+                            </button>
+                        {% else %}
+                            <button class="btn btn-sm btn-danger p-1 text-center" style="width: 180px">
+                                <i class="feather icon-x m-auto"></i> не активирован
+                            </button>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="text-black-50 text-center mt-4 w-100 m-auto d-block">
+            <span class="d-block">У вас нет приглашенных пользователей</span>
+            <button type="button" class="btn btn-success d-inline text-center mt-3"
+                    onclick="copyReferralCode('{{ user.referral.code }}')">
+                <i class="fa fa-copy m-auto"></i>
+            </button>
+        </div>
+    {% endif %}
+{% endblock %}

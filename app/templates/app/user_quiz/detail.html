@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load general %}
+
+{% block title %}
+    {{ user_quiz.quiz.name }}
+{% endblock %}
+
+{% block name %}
+    {{ user_quiz.quiz.name }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="">
+                <i class="feather icon-home"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'app:quiz_list' %}">Тесты</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'app:quiz_list' %}">{{ user_quiz.quiz.name }}
+                - {{ user_quiz.created_at|date:'d.m.Y H:i' }}</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-responsive-md table-bordered text-center">
+        <thead>
+        <tr>
+            <td>№</td>
+            <td>Наличие ответа</td>
+            <td>Вопрос</td>
+            <td>Вариант пользователя</td>
+            <td>Доступные варианты</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for question in quiz_questions %}
+            <tr>
+                <td class="align-middle">{{ forloop.counter }}</td>
+                <td class="align-middle">
+                    {% if question.id in user_questions_and_answers %}
+                        <i class="feather icon-check-circle text-success"></i>
+                    {% else %}
+                        <i class="feather icon-x-circle text-danger"></i>
+                    {% endif %}
+                </td>
+                <td class="align-middle" style="white-space: normal">{{ question.text }}</td>
+                <td class="align-middle text-left" style="white-space: normal">
+                    {% if question.id in user_questions_and_answers %}
+                        {% for answer in user_questions_and_answers|get_value_for_key:question.id %}
+                            {{ answer }}<br>
+                        {% endfor %}
+                    {% endif %}
+                </td>
+                <td class="align-middle text-left" style="white-space: normal">
+                    <div>
+                        {% for answer in question.answers.all %}
+                            {{ forloop.counter }}) {{ answer.text }}<br>
+                        {% endfor %}
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Список тестов
+{% endblock %}
+
+{% block name %}
+    Тесты
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="">
+                <i class="feather icon-home"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#">Тесты</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    {% if user_quizzes.exists %}
+        <a href="{% url 'app:start_quiz' %}" class="btn btn-sm btn-success mb-4 position-absolute"
+           style="right: 10px; margin-top: -82px">
+            <i class="feather icon-edit"></i>
+            Пройти тест
+        </a>
+        <table class="table table-responsive-md table-hover text-center">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>Тест</th>
+                <th>Дата прохождения</th>
+                <th>Вопросы</th>
+                <th>Продолжительность</th>
+                <th>Точность</th>
+                <th>Итог</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user_quiz in user_quizzes %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ user_quiz.quiz.name }}</td>
+                    <td>{{ user_quiz.created_at|date:'d.m.Y' }}</td>
+                    <td>{{ user_quiz.user_answers.count }} / {{ user_quiz.quiz.questions.count }}</td>
+                    {% with user_quiz.get_life_expectancy_and_accuracy as life_expectancy_and_accuracy %}
+                        <td>{{ life_expectancy_and_accuracy.duration }}</td>
+                        <td>{{ life_expectancy_and_accuracy.accuracy }}</td>
+                    {% endwith %}
+                    <td>
+                        <a href="{% url 'app:quiz_detail' user_quiz.id %}" class="m-2">
+                            <i class="fa fa-eye text-success"></i>
+                        </a>
+                        <a href="#" class="m-2">
+                            <i class="fa fa-download text-warning"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="text-black-50 text-center mt-4 w-100 m-auto d-block">
+            <span class="d-block">У вас нет пройденных тестов</span>
+            <a href="{% url 'app:start_quiz' %}" class="btn btn-sm btn-success mt-3">
+                Пройти тест
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

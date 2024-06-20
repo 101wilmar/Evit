@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Пользователи
+{% endblock %}
+
+{% block name %}
+    Пользователи
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="">
+                <i class="feather icon-home"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#">Пользователи</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    {% if users.exists %}
+        <table class="table table-bordered table-responsive-md table-hover table-sm text-center w-100">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>ФИО</th>
+                <th>Логин/Почта</th>
+                <th>Пароль</th>
+                <th>Дата подключения</th>
+                <th>Статус</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td class="align-middle">{{ forloop.counter }}</td>
+                    <td class="align-middle">{{ user.get_full_name }}</td>
+                    <td class="align-middle">{{ user.username }}</td>
+                    <td class="align-middle">{{ user.profile.password|default:'-' }}</td>
+                    <td class="align-middle">{{ user.date_joined }}</td>
+                    <td class="align-middle">
+                        {% if user.is_active %}
+                            <a href="{% url 'app:unverify_user' user.profile.uuid %}"
+                               class="btn btn-sm btn-success p-1 text-center" style="width: 180px">
+                                <i class="feather icon-check m-auto"></i> активирован
+                            </a>
+                        {% else %}
+                            <a href="{% url 'app:verify_user' user.profile.uuid %}"
+                               class="btn btn-sm btn-danger p-1 text-center" style="width: 180px">
+                                <i class="feather icon-x m-auto"></i> не активирован
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="text-black-50 text-center mt-4 w-100 m-auto d-block">
+            <span class="d-block">Пользователей пока нет</span>
+        </div>
+    {% endif %}
+{% endblock %}
