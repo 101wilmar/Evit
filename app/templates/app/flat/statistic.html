@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load general %}
 
 {% block title %}
     Статистика
@@ -19,8 +20,301 @@
             <a href="#">Статистика</a>
         </li>
     </ul>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
 
 {% block content %}
+    {% if not is_error %}
+        <h4 class="text-center">
+            Продолжительность жизни
+        </h4>
+        <hr>
+        <div class="row">
+            <div class="col-lg-4 col-12">
+                <div class="card shadow-1 h-100 m-1">
+                    <div class="card-header">Общая информация</div>
+                    <div class="card-body">
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr>
+                                <td class="align-middle" style="text-wrap: balance">Всего пройдено тестов</td>
+                                <td class="align-middle">{{ user_quizzes.count }}</td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle" style="text-wrap: balance">Средняя продолжительность жизни на
+                                    основе всех тестов
+                                </td>
+                                <td class="align-middle">{{ avg_duration }}</td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle" style="text-wrap: balance">Максимальный результат</td>
+                                <td class="align-middle">{{ max_duration }}</td>
+                            </tr>
+                            <tr>
+                                <td class="align-middle" style="text-wrap: balance">Минимальный результат</td>
+                                <td class="align-middle">{{ min_duration }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="card shadow-1 h-100 m-1">
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <canvas id="chart1"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="card shadow-1 h-100 m-1">
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <canvas id="chart2"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="text-center mt-4">
+            Данные за {{ last_quiz.created_at|date:'d.m.Y' }}
+        </h4>
+        <hr>
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <div class="card shadow-1 h-100 m-1">
+                    <div class="card-header text-center">
+                        Основные недостатки
+                    </div>
+                    <div class="card-body">
+                        <canvas id="chart3"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="card shadow-1 h-100 m-1">
+                    <div class="card-header text-center">
+                        Рекомендация
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Предпологаемая продолжительность жизни: <b>{{ last_duration }} лет</b><br>
+                            Предпологаемая продолжительность жизни (при исправлении): <b>{{ improved_duration }} лет</b><br>
+                        </p>
+                        <canvas id="chart4"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="text-center mt-4">
+            Прогресс
+        </h4>
+        <hr>
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <div class="card shadow-1 h-100 m-1">
+                    <div class="card-header text-center">
+                        Улучшение <i class="feather icon-arrow-up text-success"></i>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            {% for result in improved_results %}
+                                <div>
+                                    <i class="feather icon-trending-up text-success mr-3"></i> {{ improved_results|get_value_for_key:result|get_value_for_key:'text' }}
+                                    <span class="text-success">(+{{ improved_results|get_value_for_key:result|get_value_for_key:'difference' }})</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="card shadow-1 h-100 m-1">
+                    <div class="card-header text-center">
+                        Ухудшение <i class="feather icon-arrow-down text-danger"></i>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            {% for result in worsening_results %}
+                                <div>
+                                    <i class="feather icon-trending-down text-danger mr-3"></i> {{ worsening_results|get_value_for_key:result|get_value_for_key:'text' }}
+                                    <span class="text-danger">(-{{ worsening_results|get_value_for_key:result|get_value_for_key:'difference' }})</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <h4 class="text-black-50 text-center">
+            Недостаточно данных для построения статистики
+        </h4>
+    {% endif %}
+{% endblock %}
 
+{% block script %}
+    <script>
+        const ctx1 = document.getElementById('chart1');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: {{ dates|safe }},
+                datasets: [
+                    {
+                        label: 'История прохождения тестировании',
+                        data: {{ durations|safe }},
+                        borderWidth: 1
+                    }
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: false,
+                        text: 'Изменение продолжительности жизни',
+                        padding: {
+                            top: 10,
+                            bottom: 10
+                        }
+                    },
+                }
+            }
+        })
+        ;
+
+        const ctx2 = document.getElementById('chart2');
+        new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: {{ dates|safe }},
+                datasets: [{
+                    label: 'История прохождения тестировании',
+                    data: {{ durations|safe }},
+                    borderWidth: 1,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Цвет фона
+                    fill: true
+
+                }],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: false,
+                        text: 'Изменение продолжительности жизни',
+                        padding: {
+                            top: 10,
+                            bottom: 10
+                        }
+                    }
+                }
+            }
+        });
+
+        const ctx3 = document.getElementById('chart3');
+        new Chart(ctx3, {
+            type: 'polarArea',
+            data: {
+                labels: {{ worst_performance_text|safe }},
+                datasets: [
+                    {
+                        label: 'Основные проблемы',
+                        data: {{ worst_performance_duration|safe }},
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(255, 205, 86, 0.2)',
+                            'rgba(201, 203, 207, 0.2)',
+                            'rgba(54, 162, 235, 0.2)'
+                        ]
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        pointLabels: {
+                            display: true,
+                            centerPointLabels: true,
+                            font: {
+                                size: 12
+                            }
+                        },
+                        min: 0
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                        position: 'top',
+                    },
+                    title: {
+                        display: false,
+                        text: '1'
+                    }
+                }
+            },
+        });
+
+        const ctx4 = document.getElementById('chart4');
+        new Chart(ctx4, {
+            type: 'line',
+            data: {
+                labels: ['', '{{ last_quiz.created_at|date:'d.m.Y' }}'],
+                datasets: [
+                    {
+                        label: 'Предпологаемая продолжительность при исправлении',
+                        data: [0, {{ improved_duration|safe }}],
+                        borderWidth: 1,
+                        backgroundColor: 'rgba(120,255,51,0.4)',  // Цвет фона
+                        fill: true
+                    },
+                    {
+                        label: 'Предпологаемая продолжительность',
+                        data: [0, {{ last_duration|safe}}],
+                        borderWidth: 1,
+                        backgroundColor: 'rgba(192,75,110,0.4)',  // Цвет фона
+                        fill: true
+                    }
+                ],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true
+                    },
+                    title: {
+                        display: false,
+                        text: '',
+                        padding: {
+                            top: 10,
+                            bottom: 10
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 {% endblock %}

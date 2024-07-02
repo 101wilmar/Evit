@@ -42,6 +42,19 @@ class Profile(BaseModel):
     def __str__(self):
         return f'Профиль ({self.get_role_display()}) "{self.user.username}"'
 
+    @property
+    def get_full_name(self):
+        full_name = ''
+        user = self.user
+        if user.last_name:
+            full_name += user.last_name + ' '
+        if user.first_name:
+            full_name += user.first_name + ' '
+        if self.patronymic:
+            full_name += f' {self.patronymic}'
+        full_name = full_name.strip()
+        return full_name
+
 
 @receiver(post_save, sender=User)
 def create_user_data(sender, instance, created, **kwargs):

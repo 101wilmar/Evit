@@ -30,6 +30,7 @@
                 <th>ФИО</th>
                 <th>Логин/Почта</th>
                 <th>Пароль</th>
+                <th>Подписка</th>
                 <th>Дата подключения</th>
                 <th>Статус</th>
             </tr>
@@ -41,6 +42,13 @@
                     <td class="align-middle">{{ user.get_full_name }}</td>
                     <td class="align-middle">{{ user.username }}</td>
                     <td class="align-middle">{{ user.profile.password|default:'-' }}</td>
+                    <td class="align-middle">
+                        {% if user.subscriptions.exists %}
+                            <i class="feather icon-check-square text-success"></i>
+                        {% else %}
+                            <i class="feather icon-x-square text-danger"></i>
+                        {% endif %}
+                    </td>
                     <td class="align-middle">{{ user.date_joined }}</td>
                     <td class="align-middle">
                         {% if user.is_active %}

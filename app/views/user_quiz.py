@@ -1,10 +1,14 @@
+import pdfkit
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.template.loader import get_template
 
-from app.models import UserQuiz, Location, Answer
+from app.models import UserQuiz, Location
 from app.models.quiz import Quiz
-from app.service.quiz import save_user_quiz
+from app.service.quiz import save_user_quiz, set_life_expectancy
 from app.service.user_quiz import calculate_life_expectancy
+from constants import PATH_WKHTMLTOPDF
 
 
 @login_required
@@ -41,7 +45,9 @@ def save_quiz(request):
     user_quiz.save()
     data = request.POST
     save_user_quiz(user_quiz, data)
-    return redirect(reverse('app:quiz_list'))
+    set_life_expectancy(user_quiz)
+    # return redirect(reverse('app:quiz_list'))
+    return redirect(reverse('app:user_quiz_recommendation', args=[user_quiz.id]))
 
 
 @login_required
@@ -49,12 +55,10 @@ def quiz_detail(request, user_quiz_id):
     user_quiz = get_object_or_404(UserQuiz, pk=user_quiz_id)
     user_questions_and_answers = {}
     user_answers = user_quiz.user_answers.all()
-    answer_ids = user_answers.values_list('answers__id', flat=True)
     user_questions = user_answers.values_list('question_id', flat=True)
 
     for q in user_questions:
         user_questions_and_answers[q] = user_answers.filter(question_id=q).values_list('answers__text', flat=True)
-        # user_questions_and_answers[q] = Answer.objects.filter(question_id=q, id__in=answer_ids)
 
     quiz = user_quiz.quiz
     quiz_questions = quiz.questions.all()
@@ -66,3 +70,39 @@ def quiz_detail(request, user_quiz_id):
         'quiz_questions': quiz_questions,
         'data': data
     })
+
+
+@login_required
+def user_quiz_recommendation(request, user_quiz_id: int):
+    user_quiz = get_object_or_404(UserQuiz, pk=user_quiz_id)
+    return render(request, 'app/user_quiz/recommendation/detail.html', {
+        'user_quiz': user_quiz
+    })
+
+
+@login_required
+def user_quiz_recommendation_pdf(request, user_quiz_id: int):
+    user_quiz = get_object_or_404(UserQuiz, id=user_quiz_id)
+    user = user_quiz.user
+    template = get_template('app/user_quiz/recommendation/pdf.html')
+    html = template.render({
+        'user': user,
+        'user_quiz': user_quiz
+    })
+    options = {
+        'margin-top': '0.3cm',
+        'margin-right': '1.0cm',
+        'margin-bottom': '0.0cm',
+        'margin-left': '2.0cm',
+        'page-size': 'A4',
+        'copies': 1,
+        # 'dpi': 96
+    }
+
+    config = pdfkit.configuration(wkhtmltopdf=PATH_WKHTMLTOPDF) if PATH_WKHTMLTOPDF else None
+
+    pdf = pdfkit.from_string(html, False, options, configuration=config)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response[
+        'Content-Disposition'] = f'attachment;filename = "Рекомендации - {user_quiz.created_at.strftime("%d-%m-%Y")}.pdf"'
+    return response

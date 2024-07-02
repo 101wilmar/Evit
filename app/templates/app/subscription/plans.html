@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Планы
+{% endblock %}
+
+{% block name %}
+    Планы
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="">
+                <i class="feather icon-home"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#">Подписка</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    {% if not active_subscriptions %}
+        <div class="text-center">
+            У вас нет активных подписок
+        </div>
+        <hr>
+        <div class="row justify-content-center mt-5">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4 class="text-warning">Ежемесячная</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        299 рублей / месяц
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'app:activate_subscription' %}?type=monthly" class="btn btn-warning w-100">
+                            Подписка
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4 class="text-warning">Ежегодная</h4>
+                    </div>
+                    <div class="card-body text-center">
+                        2990 рублей / месяц <span class="text-danger">(-17%)</span>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'app:activate_subscription' %}?type=annual" class="btn btn-warning w-100">
+                            Подписка
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center">
+            <div class="row justify-content-center">
+                {% for subscription in active_subscriptions %}
+                    <div class="col-12 col-lg-4">
+                        <div class="card">
+                            <div class="card-header text-success">
+                                <i class="feather icon-check-square"></i>
+                                {{ subscription.get_type_display }}
+                            </div>
+                            <div class="card-body">
+                                Дата подписки: {{ subscription.start_datetime|date:'d-m-Y' }}<br>
+                                Дата окончания: {{ subscription.end_datetime|date:'d-m-Y' }}
+                            </div>
+                            <div class="card-footer">
+                                <a href="{% url 'app:remove_subscription' subscription.id %}" class="btn btn-outline-danger w-100">
+                                    Отменить
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    {% endif %}
+{% endblock %}

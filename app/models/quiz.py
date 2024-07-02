@@ -21,10 +21,15 @@ class Question(BaseModel):
 
     text = models.TextField(verbose_name='Текст')
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
+
     is_required = models.BooleanField(default=False, verbose_name='Обязательное поле')
     is_multiple = models.BooleanField(default=False, verbose_name='Несколько вариантов')
+    is_recommendation = models.BooleanField(default=False, verbose_name='Есть ли рекомендация')
+
+    recommendation = models.TextField(null=True, blank=True, verbose_name='Рекомендация')
     display_type = models.CharField(
-        max_length=128, choices=DisplayTypeChoices.choices, default=DisplayTypeChoices.SELECT, verbose_name='Как показать'
+        max_length=128, choices=DisplayTypeChoices.choices, default=DisplayTypeChoices.SELECT,
+        verbose_name='Как показать'
     )
 
     class Meta:

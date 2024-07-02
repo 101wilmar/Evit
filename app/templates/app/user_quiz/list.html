@@ -47,15 +47,20 @@
                     <td>{{ user_quiz.quiz.name }}</td>
                     <td>{{ user_quiz.created_at|date:'d.m.Y' }}</td>
                     <td>{{ user_quiz.user_answers.count }} / {{ user_quiz.quiz.questions.count }}</td>
-                    {% with user_quiz.get_life_expectancy_and_accuracy as life_expectancy_and_accuracy %}
-                        <td>{{ life_expectancy_and_accuracy.duration }}</td>
-                        <td>{{ life_expectancy_and_accuracy.accuracy }}</td>
-                    {% endwith %}
+{#                    {% with user_quiz.get_life_expectancy_and_accuracy as life_expectancy_and_accuracy %}#}
+{#                        <td>{{ life_expectancy_and_accuracy.duration }}</td>#}
+{#                        <td>{{ life_expectancy_and_accuracy.accuracy }}</td>#}
+{#                    {% endwith %}#}
+                    <td>{{ user_quiz.duration }}</td>
+                    <td>{{ user_quiz.accuracy }}%</td>
                     <td>
+                        <a href="{% url 'app:user_quiz_recommendation' user_quiz.id %}" class="m-2">
+                            <i class="fa fa-chart-pie text-info"></i>
+                        </a>
                         <a href="{% url 'app:quiz_detail' user_quiz.id %}" class="m-2">
                             <i class="fa fa-eye text-success"></i>
                         </a>
-                        <a href="#" class="m-2">
+                        <a href="{% url 'app:user_quiz_recommendation_pdf' user_quiz.id %}" target="_blank" class="m-2">
                             <i class="fa fa-download text-warning"></i>
                         </a>
                     </td>

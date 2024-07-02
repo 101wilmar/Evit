@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Рекомендация
+{% endblock %}
+
+{% block name %}
+    Рекомендация
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="">
+                <i class="feather icon-home"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'app:quiz_list' %}">Тесты</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'app:quiz_list' %}">
+                {{ user_quiz.quiz.name }} - {{ user_quiz.created_at|date:'d.m.Y H:i' }}
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#">
+                Рекомендация
+            </a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <h3 class="text-black-50 text-center">
+        Ваша предпологаемая продолжительность жизни
+    </h3>
+    <span class="text-black text-center d-block">Точность: {{ user_quiz.accuracy|floatformat }}%</span>
+    <hr>
+    <span class="btn btn-success mt-4 m-auto d-block"
+          style="border-radius: 15px; width: fit-content; font-size: 27px; padding: 10px 50px">{{ user_quiz.duration|floatformat }} лет</span>
+    <hr>
+    <p>
+        Рекомендации <br>
+        Рекомендации <br>
+        Рекомендации <br>
+        Рекомендации <br>
+        Рекомендации <br>
+        Рекомендации <br>
+        Рекомендации <br>
+        Рекомендации <br>
+        Рекомендации <br>
+        Рекомендации <br>
+    </p>
+    <hr>
+    <p class="text-danger">
+        При выполнении рекомендаций необходимо проконсультироваться с лечащим врачом!
+    </p>
+{% endblock %}

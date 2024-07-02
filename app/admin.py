@@ -8,7 +8,7 @@ admin.site.register(Referral)
 
 # admin.site.register(Location)
 
-admin.site.register(UserQuiz)
+# admin.site.register(UserQuiz)
 # admin.site.register(Quiz)
 # admin.site.register(Question)
 admin.site.register(Answer)
@@ -29,6 +29,11 @@ class QuizAdmin(admin.ModelAdmin):
     list_display = ('name', 'created_at')
     inlines = [QuestionTabularInline]
 
+
+@admin.register(UserQuiz)
+class UserQuizAdmin(admin.ModelAdmin):
+    list_display = ('id', 'weight', 'height', 'duration', 'accuracy', 'location', 'created_at')
+    list_editable = ['duration', 'accuracy']
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):

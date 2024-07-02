@@ -1,6 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
+from django.core.mail import send_mail
 from django.shortcuts import redirect, reverse, render
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 from app.models import Referral
 from landing.forms.user import UserForm
@@ -43,11 +46,26 @@ def sign_up(request):
             user.is_active = False
             user.save()
             user.profile.password = password
-            print(password)
-            print(user.profile)
             user.profile.save()
-            messages.warning(request, 'Вам на почту отправлена ссылка для активации')
-            # send_email()
+
+            template_name = 'app/email/activate.html'
+            html = render_to_string(
+                template_name=template_name,
+                context={
+                    'uuid': user.profile.uuid
+                }
+            )
+            plain_message = strip_tags(html)
+            send_mail(
+                'Evit | Активация аккаунта',
+                plain_message,
+                'ansagankabdolla4@gmail.com',
+                [user.username],
+                fail_silently=False,
+                html_message=html
+            )
+            messages.success(request, 'Вам на почту отправлена ссылка для активации аккаунта')
+
             if referral_code:
                 referral = Referral.objects.filter(code=referral_code).first()
                 referral.referred_users.add(user)

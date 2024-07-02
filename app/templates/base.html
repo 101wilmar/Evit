@@ -106,6 +106,12 @@
                         <span class="pcoded-mtext">Архив тестов</span>
                     </a>
                 </li>
+            <li class="nav-item {% if '/subscription' in request.path %}active{% endif %}">
+                    <a href="{% url 'app:subscription_plans' %}" class="nav-link">
+                        <div class="pcoded-micon"><i class="feather icon-check-circle"></i></div>
+                        <span class="pcoded-mtext">Подписка</span>
+                    </a>
+                </li>
                 <li class="nav-item pcoded-menu-caption">
                     <label>Реферальная система</label>
                 </li>

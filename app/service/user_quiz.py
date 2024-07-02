@@ -5,9 +5,8 @@ from django.db.models import Sum
 
 
 def calculate_life_expectancy(user_quiz) -> dict:
-    # current_age = user_quiz.current_age
-    weight = user_quiz.weight
-    height = user_quiz.height
+    weight = int(user_quiz.weight)
+    height = int(user_quiz.height)
     location = user_quiz.location
     user_answers = user_quiz.user_answers.all()
     questions = user_answers.values_list('question', flat=True).distinct()
@@ -28,7 +27,7 @@ def calculate_life_expectancy(user_quiz) -> dict:
     }
 
 
-def _calculate_bmi_duration(weight, height) -> float:
+def _calculate_bmi_duration(weight: int, height: int) -> float:
     height /= 100
     BMI = weight / (height * height)
     BMI = round(BMI, 2)

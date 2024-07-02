@@ -20,6 +20,9 @@ class UserQuiz(BaseModel):
         Location, on_delete=models.SET_NULL, null=True, blank=True, related_name='user_quizzes'
     )
 
+    accuracy = models.DecimalField(max_digits=5, decimal_places=2, default=0, verbose_name='Точность')
+    duration = models.DecimalField(max_digits=4, decimal_places=2, default=0, verbose_name='Продолжительность')
+
     class Meta:
         verbose_name = 'Тест пользователя'
         verbose_name_plural = 'Тесты пользователя'

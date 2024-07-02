@@ -383,7 +383,28 @@
     {#            crossorigin="anonymous"></script>#}
 </head>
 <body class="scroller">
-
+{% if messages %}
+    <div class="messages position-absolute p-3 m-auto d-flex justify-content-between align-items-center flex-column"
+         style="    z-index: 10000;
+    width: fit-content;
+    position: absolute;
+    display: flex;
+    font-size: 20px;
+    padding: 5px;
+    background-color: #0094a7ad;
+    margin: 80px 20px 20px;">
+        {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible d-flex justify-content-between align-items-center"
+                 role="alert" style="max-width: 360px; width: 90%">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                        onclick="this.parentElement.remove()"></button>
+                <div class="alert-message" style="width: 100%;padding: 5px 10px;">
+                    {{ message|striptags|safe }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
 <section class="layers poiret-one-regular">
     <div class="layers__container">
         <div class="layers__item layer-1"

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user_quiz.created_at|date:'d-m-Y' }}</title>
+</head>
+<body style="font-family: monospace; font-size: 16px">
+<h2 style="text-align: center">{{ user.profile.get_full_name }}</h2>
+<p style="text-align: center">
+    Ваша предполагаемая продолжительность жизни <b>~{{ user_quiz.duration }}</b><br>
+    Точность прогноза <b>{{ user_quiz.accuracy }}</b>
+</p>
+<hr>
+<p>
+    Рекомендации <br>
+    Рекомендации <br>
+    Рекомендации <br>
+    Рекомендации <br>
+    Рекомендации <br>
+    Рекомендации <br>
+    Рекомендации <br>
+    Рекомендации <br>
+    Рекомендации <br>
+    Рекомендации <br>
+</p>
+<hr>
+<p style="color: orangered">
+    При выполнении рекомендаций необходимо проконсультироваться с лечащим врачом!
+</p>
+</body>
+</html>
