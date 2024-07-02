@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 from app.models import Referral
+from constants import DOMAIN
 from landing.forms.user import UserForm
 
 
@@ -52,7 +53,8 @@ def sign_up(request):
             html = render_to_string(
                 template_name=template_name,
                 context={
-                    'uuid': user.profile.uuid
+                    'uuid': user.profile.uuid,
+                    'domain': DOMAIN
                 }
             )
             plain_message = strip_tags(html)
