@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 
-from app.models import Subscription
+from app.models import Subscription, SubscriptionPayment
 
 from yookassa import Configuration, Payment
 
@@ -35,9 +35,10 @@ def activate_subscription(request):
     now = datetime.datetime.now()
     if subscription_type == Subscription.TypeChoices.MONTHLY:
         end_datetime = now + datetime.timedelta(days=30)
+        amount = 299
         payment = Payment.create({
             "amount": {
-                "value": "299.00",
+                "value": f"{amount}",
                 "currency": "RUB"
             },
             "payment_method_data": {
@@ -49,13 +50,14 @@ def activate_subscription(request):
             },
             "description": "Месячная подписка"
         })
+        yokassa_id = payment.id
         url = payment.confirmation.confirmation_url
-
     elif subscription_type == Subscription.TypeChoices.ANNUAL:
         end_datetime = now + datetime.timedelta(days=365)
+        amount = 2990
         payment = Payment.create({
             "amount": {
-                "value": "2990.00",
+                "value": f"{amount}",
                 "currency": "RUB"
             },
             "payment_method_data": {
@@ -68,6 +70,7 @@ def activate_subscription(request):
             "description": "Годовая подписка"
         })
 
+        yokassa_id = payment.id
         url = payment.confirmation.confirmation_url
     else:
         return redirect(reverse('app:home'))
@@ -79,6 +82,14 @@ def activate_subscription(request):
         end_datetime=end_datetime
     )
     subscription.save()
+
+    subscription_payment = SubscriptionPayment.objects.create(
+        subscription=subscription,
+        yookassa_id=yokassa_id,
+        amount=amount
+    )
+    subscription_payment.save()
+
     messages.success(request, 'Вы активировали подписку')
     if url:
         return redirect(url)

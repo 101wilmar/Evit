@@ -22,10 +22,10 @@ class Subscription(BaseModel):
         return f'{self.user.username} - {self.type}'
 
 
-class Payment(BaseModel):
+class SubscriptionPayment(BaseModel):
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, null=True, blank=True,
                                      related_name='payments')
-    yokassa_id = models.CharField(max_length=50, null=True, blank=True, unique=True)
+    yookassa_id = models.CharField(max_length=50, null=True, blank=True, unique=True)
     amount = models.IntegerField(null=True, blank=True)
     is_paid = models.BooleanField(default=False)
 
