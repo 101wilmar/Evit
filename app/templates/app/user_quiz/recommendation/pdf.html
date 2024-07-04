@@ -1,29 +1,39 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{{ user_quiz.created_at|date:'d-m-Y' }}</title>
+    <style>
+        @font-face {
+            font-family: 'GTEEstiPro';
+            src: url({% static 'app/fonts/GTEEstiPro/gteestiprodisplay_regular.otf' %}) format('opentype');
+        }
+
+        body {
+            font-family: 'GTEEstiPro', sans-serif;
+        }
+    </style>
 </head>
-<body style="font-family: monospace; font-size: 16px">
+<body style="font-family: 'GTEEstiPro'; font-size: 16px">
 <h2 style="text-align: center">{{ user.profile.get_full_name }}</h2>
 <p style="text-align: center">
     Ваша предполагаемая продолжительность жизни <b>~{{ user_quiz.duration }}</b><br>
     Точность прогноза <b>{{ user_quiz.accuracy }}</b>
 </p>
 <hr>
-<p>
-    Рекомендации <br>
-    Рекомендации <br>
-    Рекомендации <br>
-    Рекомендации <br>
-    Рекомендации <br>
-    Рекомендации <br>
-    Рекомендации <br>
-    Рекомендации <br>
-    Рекомендации <br>
-    Рекомендации <br>
-</p>
-<hr>
+{% for recommendation_user_answer in recommendation_user_answers %}
+    {% with recommendation_user_answer.question.recommendation as recommendation %}
+        <h3 class="bg-dark text-white rounded w-auto p-1">{{ forloop.counter }}. {{ recommendation_user_answer.question.text }}</h3>
+        <hr>
+        <p>
+            {{ recommendation|default:''|safe }}
+        </p>
+        <hr>
+    {% endwith %}
+{% empty %}
+    <hr>
+{% endfor %}
 <p style="color: orangered">
     При выполнении рекомендаций необходимо проконсультироваться с лечащим врачом!
 </p>

@@ -40,19 +40,20 @@
     <span class="btn btn-success mt-4 m-auto d-block"
           style="border-radius: 15px; width: fit-content; font-size: 27px; padding: 10px 50px">{{ user_quiz.duration|floatformat }} лет</span>
     <hr>
-    <p>
-        Рекомендации <br>
-        Рекомендации <br>
-        Рекомендации <br>
-        Рекомендации <br>
-        Рекомендации <br>
-        Рекомендации <br>
-        Рекомендации <br>
-        Рекомендации <br>
-        Рекомендации <br>
-        Рекомендации <br>
-    </p>
-    <hr>
+    {% for recommendation_user_answer in recommendation_user_answers %}
+        {% with recommendation_user_answer.question.recommendation as recommendation %}
+            {% if recommendation %}
+                <h3 class="bg-dark text-white rounded w-auto p-1">{{ forloop.counter }}. {{ recommendation_user_answer.question.text }}</h3>
+                <hr>
+                <p>
+                    {{ recommendation|default:''|safe }}
+                </p>
+                <hr>
+            {% endif %}
+        {% endwith %}
+    {% empty %}
+        <hr>
+    {% endfor %}
     <p class="text-danger">
         При выполнении рекомендаций необходимо проконсультироваться с лечащим врачом!
     </p>

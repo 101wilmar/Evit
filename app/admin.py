@@ -35,10 +35,13 @@ class UserQuizAdmin(admin.ModelAdmin):
     list_display = ('id', 'weight', 'height', 'duration', 'accuracy', 'location', 'created_at')
     list_editable = ['duration', 'accuracy']
 
+
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'text', 'is_required', 'is_multiple', 'display_type', 'created_at')
-    list_editable = ['is_required', 'is_multiple', 'display_type']
+    list_display = (
+    'id', 'text', 'is_required', 'is_multiple', 'is_recommendation', 'display_type', 'is_editable', 'created_at',
+    'recommendation')
+    list_editable = ['is_required', 'is_multiple', 'is_recommendation', 'is_editable', 'display_type', 'recommendation']
     inlines = [AnswerTabularInline]
 
 

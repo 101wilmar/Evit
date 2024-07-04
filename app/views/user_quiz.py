@@ -1,10 +1,11 @@
 import pdfkit
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.template.loader import get_template
 
-from app.models import UserQuiz, Location
+from app.models import UserQuiz, Location, Question
 from app.models.quiz import Quiz
 from app.service.quiz import save_user_quiz, set_life_expectancy
 from app.service.user_quiz import calculate_life_expectancy
@@ -75,8 +76,17 @@ def quiz_detail(request, user_quiz_id):
 @login_required
 def user_quiz_recommendation(request, user_quiz_id: int):
     user_quiz = get_object_or_404(UserQuiz, pk=user_quiz_id)
+    recommendation_user_answers = user_quiz.user_answers.annotate(
+        duration_sum=Sum('answers__duration')
+    ).exclude(
+        question__is_recommendation=False
+    ).filter(
+        duration_sum__lt=0,
+    ).order_by('question_id')
+    recommendation_user_answers = recommendation_user_answers.select_related('question')
     return render(request, 'app/user_quiz/recommendation/detail.html', {
-        'user_quiz': user_quiz
+        'user_quiz': user_quiz,
+        'recommendation_user_answers': recommendation_user_answers
     })
 
 
@@ -85,9 +95,19 @@ def user_quiz_recommendation_pdf(request, user_quiz_id: int):
     user_quiz = get_object_or_404(UserQuiz, id=user_quiz_id)
     user = user_quiz.user
     template = get_template('app/user_quiz/recommendation/pdf.html')
+
+    recommendation_user_answers = user_quiz.user_answers.annotate(
+        duration_sum=Sum('answers__duration')
+    ).exclude(
+        question__is_recommendation=False
+    ).filter(
+        duration_sum__lt=0,
+    ).order_by('question_id')
+    recommendation_user_answers = recommendation_user_answers.select_related('question')
     html = template.render({
         'user': user,
-        'user_quiz': user_quiz
+        'user_quiz': user_quiz,
+        'recommendation_user_answers': recommendation_user_answers
     })
     options = {
         'margin-top': '0.3cm',
@@ -104,5 +124,5 @@ def user_quiz_recommendation_pdf(request, user_quiz_id: int):
     pdf = pdfkit.from_string(html, False, options, configuration=config)
     response = HttpResponse(pdf, content_type='application/pdf')
     response[
-        'Content-Disposition'] = f'attachment;filename = "Рекомендации - {user_quiz.created_at.strftime("%d-%m-%Y")}.pdf"'
+        'Content-Disposition'] = f'attachment;filename = "recommendation-{user_quiz.created_at.strftime("%d.%m.%Y")}.pdf"'
     return response

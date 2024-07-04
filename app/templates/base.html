@@ -29,7 +29,17 @@
     <!-- vendor css -->
     <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/custom.css' %}">
+    <style>
 
+        @font-face {
+            font-family: 'GTEEstiPro';
+            src: url({% static 'app/fonts/GTEEstiPro/gteestiprodisplay_regular.otf' %}) format('opentype');
+        }
+
+        body {
+            font-family: 'GTEEstiPro', sans-serif;
+        }
+    </style>
 </head>
 
 <body>
@@ -106,7 +116,7 @@
                         <span class="pcoded-mtext">Архив тестов</span>
                     </a>
                 </li>
-            <li class="nav-item {% if '/subscription' in request.path %}active{% endif %}">
+                <li class="nav-item {% if '/subscription' in request.path %}active{% endif %}">
                     <a href="{% url 'app:subscription_plans' %}" class="nav-link">
                         <div class="pcoded-micon"><i class="feather icon-check-circle"></i></div>
                         <span class="pcoded-mtext">Подписка</span>

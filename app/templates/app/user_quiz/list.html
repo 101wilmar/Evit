@@ -45,7 +45,7 @@
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ user_quiz.quiz.name }}</td>
-                    <td>{{ user_quiz.created_at|date:'d.m.Y' }}</td>
+                    <td>{{ user_quiz.created_at|date:'d.m.Y H:i' }}</td>
                     <td>{{ user_quiz.user_answers.count }} / {{ user_quiz.quiz.questions.count }}</td>
 {#                    {% with user_quiz.get_life_expectancy_and_accuracy as life_expectancy_and_accuracy %}#}
 {#                        <td>{{ life_expectancy_and_accuracy.duration }}</td>#}

@@ -12,7 +12,8 @@ def statistic(request):
         user_quizzes = request.user.user_quizzes.all().order_by('created_at')
 
         last_quiz: UserQuiz = user_quizzes.last()
-        worst_performance = last_quiz.user_answers.annotate(duration_sum=Sum('answers__duration')).filter(
+        worst_performance = last_quiz.user_answers.filter(question__is_editable=True).annotate(
+            duration_sum=Sum('answers__duration')).filter(
             duration_sum__lt=0
         ).order_by(
             'duration_sum'

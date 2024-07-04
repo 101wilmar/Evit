@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django.db import models
 
 from app.models.base import BaseModel
@@ -25,8 +26,9 @@ class Question(BaseModel):
     is_required = models.BooleanField(default=False, verbose_name='Обязательное поле')
     is_multiple = models.BooleanField(default=False, verbose_name='Несколько вариантов')
     is_recommendation = models.BooleanField(default=False, verbose_name='Есть ли рекомендация')
+    is_editable = models.BooleanField(default=False, verbose_name='Изменяемый')
 
-    recommendation = models.TextField(null=True, blank=True, verbose_name='Рекомендация')
+    recommendation = RichTextField(null=True, blank=True, verbose_name='Рекомендация')
     display_type = models.CharField(
         max_length=128, choices=DisplayTypeChoices.choices, default=DisplayTypeChoices.SELECT,
         verbose_name='Как показать'
