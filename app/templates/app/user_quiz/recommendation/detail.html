@@ -37,24 +37,29 @@
     </h3>
     <span class="text-black text-center d-block">Точность: {{ user_quiz.accuracy|floatformat }}%</span>
     <hr>
-    <span class="btn btn-success mt-4 m-auto d-block"
+    <span class="mt-4 m-auto d-block"
           style="border-radius: 15px; width: fit-content; font-size: 27px; padding: 10px 50px">{{ user_quiz.duration|floatformat }} лет</span>
     <hr>
-    {% for recommendation_user_answer in recommendation_user_answers %}
-        {% with recommendation_user_answer.question.recommendation as recommendation %}
-            {% if recommendation %}
-                <h3 class="bg-dark text-white rounded w-auto p-1">{{ forloop.counter }}. {{ recommendation_user_answer.question.text }}</h3>
-                <hr>
-                <p>
-                    {{ recommendation|default:''|safe }}
-                </p>
-                <hr>
-            {% endif %}
-        {% endwith %}
-    {% empty %}
-        <hr>
-    {% endfor %}
-    <p class="text-danger">
-        При выполнении рекомендаций необходимо проконсультироваться с лечащим врачом!
-    </p>
+    {% if is_active_subscriptions %}
+        {% for recommendation_user_answer in recommendation_user_answers %}
+            {% with recommendation_user_answer.question.recommendation as recommendation %}
+                {% if recommendation %}
+                    <h3 class="bg-dark text-white rounded w-auto p-1">{{ forloop.counter }}. {{ recommendation_user_answer.question.text }}</h3>
+                    <hr>
+                    <p>
+                        {{ recommendation|default:''|safe }}
+                    </p>
+                    <hr>
+                {% endif %}
+            {% endwith %}
+        {% empty %}
+            <hr>
+        {% endfor %}
+        <p class="text-danger">
+            При выполнении рекомендаций необходимо проконсультироваться с лечащим врачом!
+        </p>
+    {% else %}
+        <span class="text-black-50 text-center m-auto d-block">Для просмотра и скачивания рекомендации оплатите <a
+                href="{% url 'app:subscription_plans' %}">подписку</a></span>
+    {% endif %}
 {% endblock %}

@@ -141,6 +141,12 @@
                             <span class="pcoded-mtext">Пользователи</span>
                         </a>
                     </li>
+                    <li data-username="Users" class="nav-item {% if '/payment' in request.path %}active{% endif %}">
+                        <a href="{% url 'app:payment_list' %}" class="nav-link">
+                            <div class="pcoded-micon"><i class="fa fa-money-check-alt"></i></div>
+                            <span class="pcoded-mtext">Платежи</span>
+                        </a>
+                    </li>
                     <li data-username="Test management"
                         class="nav-item {% if '/management-quiz' in request.path %}active{% endif %}">
                         <a href="{% url 'app:management_quiz_list' %}" class="nav-link">

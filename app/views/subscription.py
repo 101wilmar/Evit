@@ -3,15 +3,13 @@ import datetime
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.utils import timezone
 
 from app.models import Subscription, SubscriptionPayment
 
 from yookassa import Configuration, Payment
 
 from constants import DOMAIN
-
-Configuration.account_id = '413522'
-Configuration.secret_key = 'test_SJH_u2rTGYZT6z4UgMc58tWN9p1MsyiOSC2S7H1nWgQ'
 
 
 @login_required
@@ -20,7 +18,8 @@ def subscription_plans(request):
     now = datetime.datetime.now()
     active_subscriptions = user.subscriptions.filter(
         start_datetime__lte=now,
-        end_datetime__gte=now
+        end_datetime__gte=now,
+        payment__is_paid=True
     )
     return render(request, 'app/subscription/plans.html', {
         'active_subscriptions': active_subscriptions
@@ -50,8 +49,6 @@ def activate_subscription(request):
             },
             "description": "Месячная подписка"
         })
-        yokassa_id = payment.id
-        url = payment.confirmation.confirmation_url
     elif subscription_type == Subscription.TypeChoices.ANNUAL:
         end_datetime = now + datetime.timedelta(days=365)
         amount = 2990
@@ -69,12 +66,11 @@ def activate_subscription(request):
             },
             "description": "Годовая подписка"
         })
-
-        yokassa_id = payment.id
-        url = payment.confirmation.confirmation_url
     else:
         return redirect(reverse('app:home'))
 
+    yookassa_id = payment.id
+    url = payment.confirmation.confirmation_url
     subscription = Subscription.objects.create(
         user=user,
         type=subscription_type,
@@ -85,12 +81,12 @@ def activate_subscription(request):
 
     subscription_payment = SubscriptionPayment.objects.create(
         subscription=subscription,
-        yookassa_id=yokassa_id,
+        yookassa_id=yookassa_id,
         amount=amount
     )
     subscription_payment.save()
 
-    messages.success(request, 'Вы активировали подписку')
+    # messages.success(request, 'Вы активировали подписку')
     if url:
         return redirect(url)
     # return redirect(reverse('app:subscription_plans'))

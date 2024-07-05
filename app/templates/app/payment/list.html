@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Платежи
+{% endblock %}
+
+{% block name %}
+    Платежи
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="">
+                <i class="feather icon-home"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#">
+                Платежи
+            </a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <table class="table table-bordered text-center">
+        <thead>
+        <tr>
+            <td>№</td>
+            <td>Пользователь</td>
+            <td>YooKassa ID</td>
+            <td>Дата создания</td>
+            <td>Статус оплаты</td>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for subscription_payment in subscription_payments %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                    {{ subscription_payment.subscription.user.profile.get_full_name }}
+                </td>
+                <td>
+                    {{ subscription_payment.yookassa_id }}
+                </td>
+                <td>{{ subscription_payment.created_at }}</td>
+                <td>
+                    {% if subscription_payment.is_paid %}
+                        <i class="fa fa-check text-success"></i>
+                    {% else %}
+                        <i class="fa fa-x text-danger"></i>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if next_cursor %}
+        <a href="" class="btn btn-success">
+            <i class="fa fa-align-right"></i>
+            Далее
+        </a>
+    {% endif %}
+{% endblock %}

@@ -34,6 +34,10 @@ urlpatterns = [
     # REFACTOR
     path('subscription/<int:subscription_id>/remove', views.remove_subscription, name='remove_subscription'),
 
+    # PaymentSubscription
+    path('payment', views.payment_list, name='payment_list'),
+    path('payment/<str:yookassa_id>', views.payment_detail, name='payment_detail'),
+
     # Quiz Management
     path('management-quiz', views.management_quiz_list, name='management_quiz_list'),
     path('management-quiz/<int:pk>', views.management_quiz_detail, name='management_quiz_detail'),

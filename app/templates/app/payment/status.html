@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if subscription_payment.is_paid %}Оплачено{% else %}Ждем оплату{% endif %}
+{% endblock %}
+
+{% block name %}
+    {% if subscription_payment.is_paid %}Оплачено{% else %}Ждем оплату{% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="">
+                <i class="feather icon-home"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="#">
+                Платеж {{ subscription_payment.yookassa_id }}
+            </a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    {% if subscription_payment.is_paid %}
+        <h3>Проверка ...</h3>
+        <p class="text-warning">Статус: Проверка оплаты</p>
+        <p>Ваша оплата будет проверена в течение 2-3 минут и вы сможете пользоваться сервисом</p>
+        <p>Обновите страницу для просмотра статуса</p>
+    {% else %}
+        <h3>Оплата произведена</h3>
+        <p class="text-success">Статус: Успешно</p>
+    {% endif %}
+{% endblock %}

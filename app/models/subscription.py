@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -21,10 +23,17 @@ class Subscription(BaseModel):
     def __str__(self):
         return f'{self.user.username} - {self.type}'
 
+    @property
+    def is_active(self):
+        current_date = datetime.datetime.now()
+        if self.start_datetime.date() < current_date.date() < self.end_datetime.date():
+            return True
+        return False
+
 
 class SubscriptionPayment(BaseModel):
-    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE, null=True, blank=True,
-                                     related_name='payments')
+    subscription = models.OneToOneField(Subscription, on_delete=models.CASCADE, null=True, blank=True,
+                                        related_name='payment')
     yookassa_id = models.CharField(max_length=50, null=True, blank=True, unique=True)
     amount = models.IntegerField(null=True, blank=True)
     is_paid = models.BooleanField(default=False)
@@ -34,4 +43,4 @@ class SubscriptionPayment(BaseModel):
         verbose_name_plural = 'Оплаты YooKassa'
 
     def __str__(self):
-        return self.yokassa_id
+        return self.yookassa_id

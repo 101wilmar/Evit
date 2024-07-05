@@ -1,6 +1,9 @@
+from datetime import datetime
+
 import pdfkit
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.template.loader import get_template
@@ -73,20 +76,36 @@ def quiz_detail(request, user_quiz_id):
     })
 
 
+def get_active_subscriptions_exists(user) -> bool:
+    current_datetime = datetime.now()
+    is_active_subscriptions = user.subscriptions.filter(
+        Q(start_datetime__lte=current_datetime) &
+        Q(end_datetime__gte=current_datetime) &
+        Q(payment__is_paid=True)
+    ).exists()
+    return is_active_subscriptions
+
+
 @login_required
 def user_quiz_recommendation(request, user_quiz_id: int):
     user_quiz = get_object_or_404(UserQuiz, pk=user_quiz_id)
-    recommendation_user_answers = user_quiz.user_answers.annotate(
-        duration_sum=Sum('answers__duration')
-    ).exclude(
-        question__is_recommendation=False
-    ).filter(
-        duration_sum__lt=0,
-    ).order_by('question_id')
-    recommendation_user_answers = recommendation_user_answers.select_related('question')
+
+    is_active_subscriptions = get_active_subscriptions_exists(request.user)
+    if is_active_subscriptions:
+        recommendation_user_answers = user_quiz.user_answers.annotate(
+            duration_sum=Sum('answers__duration')
+        ).exclude(
+            question__is_recommendation=False
+        ).filter(
+            duration_sum__lt=0,
+        ).order_by('question_id')
+        recommendation_user_answers = recommendation_user_answers.select_related('question')
+    else:
+        recommendation_user_answers = []
     return render(request, 'app/user_quiz/recommendation/detail.html', {
         'user_quiz': user_quiz,
-        'recommendation_user_answers': recommendation_user_answers
+        'recommendation_user_answers': recommendation_user_answers,
+        'is_active_subscriptions': is_active_subscriptions
     })
 
 
@@ -94,6 +113,11 @@ def user_quiz_recommendation(request, user_quiz_id: int):
 def user_quiz_recommendation_pdf(request, user_quiz_id: int):
     user_quiz = get_object_or_404(UserQuiz, id=user_quiz_id)
     user = user_quiz.user
+
+    is_active_subscriptions = get_active_subscriptions_exists(request.user)
+    if not is_active_subscriptions:
+        messages.warning(request, 'Для скачивания рекомендации оплатите подписку')
+        return redirect(reverse('app:quiz_list'))
     template = get_template('app/user_quiz/recommendation/pdf.html')
 
     recommendation_user_answers = user_quiz.user_answers.annotate(
