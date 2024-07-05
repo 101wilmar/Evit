@@ -16,7 +16,7 @@ class Command(BaseCommand):
         past_datetime = current_datetime - datetime.timedelta(hours=1)
         # print(past_datetime.time())
         subscription_payments = SubscriptionPayment.objects.filter(created_at__gt=past_datetime, is_paid=False)
-        # print(subscription_payments.values_list('created_at'))
+        print(subscription_payments.values_list('created_at'))
         for subscription_payment in subscription_payments:
             payment_id = subscription_payment.yookassa_id
             payment = Payment.find_one(payment_id)
