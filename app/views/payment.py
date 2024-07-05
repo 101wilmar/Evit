@@ -11,7 +11,7 @@ def payment_list(request):
     if not request.user.profile.role == Profile.RoleChoices.ADMIN:
         messages.error(request, 'У вас недостаточно прав для просмотра данной страницы')
         return redirect(reverse('app:home'))
-    subscription_payments = SubscriptionPayment.objects.all()
+    subscription_payments = SubscriptionPayment.objects.filter(is_paid=True)
     return render(request, 'app/payment/list.html', {
         'subscription_payments': subscription_payments,
     })
