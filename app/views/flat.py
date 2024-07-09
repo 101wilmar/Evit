@@ -12,13 +12,12 @@ from constants import DOMAIN
 @login_required
 def home(request):
 
-
     # payments = Payment.list().items
     # for index, payment in enumerate(payments, start=1):
     #     print(index, payment.id, payment.test, payment.amount.value, payment.paid)
     # print(payments)
-
-
+    #
+    #
     # print(payment.__dict__)
     # print(payment.confirmation.confirmation_url)
     # print(payment)
@@ -32,12 +31,11 @@ def home(request):
     #         'domain': DOMAIN
     #     }
     # )
-    # print(html)
     # plain_message = strip_tags(html)
     # send_mail(
     #     'Evit | Активация аккаунта',
     #     plain_message,
-    #     'ansagankabdolla4@gmail.com',
+    #     'e-vit@report.me',
     #     ['kabdolla.ansagan@mail.ru'],
     #     fail_silently=False,
     #     html_message=html

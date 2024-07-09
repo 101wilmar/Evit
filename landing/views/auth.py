@@ -61,7 +61,8 @@ def sign_up(request):
             send_mail(
                 'Evit | Активация аккаунта',
                 plain_message,
-                'ansagankabdolla4@gmail.com',
+                'e-vit@report.me',
+                # 'ansagankabdolla4@gmail.com',
                 [user.username],
                 fail_silently=False,
                 html_message=html
@@ -71,7 +72,9 @@ def sign_up(request):
             if referral_code:
                 referral = Referral.objects.filter(code=referral_code).first()
                 referral.referred_users.add(user)
-        except:
+        except Exception as e:
+            print(e.__class__)
+            print(e.__class__.__name__)
             messages.warning(request, 'Данная почта уже зарегистрировона')
             return redirect(reverse('landing:auth'))
     return redirect(reverse('app:home'))
