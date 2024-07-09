@@ -123,6 +123,16 @@
     </style>
     <style>
         @font-face {
+            font-family: 'GTEEstiPro';
+            src: url({% static 'app/fonts/GTEEstiPro/gteestiprodisplay_regular.otf' %}) format('opentype');
+        }
+
+        body {
+            font-family: 'GTEEstiPro', sans-serif;
+        }
+    </style>
+    <style>
+        @font-face {
             font-family: 'Colus-Regular';
             src: url({% static 'landing/fonts/colus.ttf' %}) format('truetype');
             font-weight: normal;
@@ -479,7 +489,7 @@
              class="contact-forest">
         <div class="contact-card">
             <h1 style="color: black; text-align: center; margin: 20px" class="colus-regular">
-                Связаться с нами
+                Подписка
             </h1>
 
             <hr color="grey" style="margin: 20px">
@@ -530,7 +540,61 @@
     {#    <div class="contact_block poiret-one-regular">#}
 
 </section>
-
+<section class="footer bg-dark" style="position: absolute;
+    height: 180px;
+    margin-top: -180px;
+    background: black;
+    width: 100%;
+    opacity: .7;">
+    <div style="display: flex; height: 100% ">
+        <div style="width: 33.3%; height: 100%">
+            <div style="display: flex; justify-content: center; align-items: center; height: 100%; flex-direction: column">
+                <table style="color: white !important; text-align: left">
+                    <tbody>
+                    <tr>
+                        <th>Номер</th>
+                        <td>+79220791980</td>
+                    </tr>
+                    <tr>
+                        <th>Почта</th>
+                        <td>automaticworkers@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <th>Почта</th>
+                        <td>automaticworkers@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            ИП Томилов А.А.
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>ИНН</th>
+                        <td>860202247307</td>
+                    </tr>
+                    <tr>
+                        <th>ОГРНИП</th>
+                        <td>322723200056195</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <a href="{% static 'app/files/Договор-оферта.pdf' %}" style="color: lightblue">Оферта</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <a href="{% static 'app/files/Cогласие_на_обработку_персональных_данных.pdf' %}" style="color: lightblue">Согласие на
+                                обработку персональных данных</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="width: 33.3%; height: 100%"></div>
+        <div class="col-4"></div>
+    </div>
+</section>
 {#<script>#}
 {#    let isScrolling = false;#}
 {##}
