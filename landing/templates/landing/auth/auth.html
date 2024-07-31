@@ -641,7 +641,7 @@
                 {% else %}
                     <div style="background-color: white; color: black; padding: 20px 50px; font-size: 24px; border-radius: 15px; opacity: .8">
                         Вы уже авторизованы <br>
-                        Перейти в <a href="{% url 'app:cabinet' %}" style="text-decoration: none">кабинет</a>
+                        Перейти в <a href="{% url 'app:cabinet' %}" style="text-decoration: none; color: red">кабинет</a>
                     </div>
                 {% endif %}
             </div>
@@ -666,7 +666,7 @@
                         <li><a class="menu__item" href="{% url 'landing:home' %}#about">О
                             проекте {% url 'landing:home' %}</a></li>
                         <li><a class="menu__item" href="{% url 'landing:home' %}#contact">Контакты</a></li>
-                        <li><a class="menu__item" href="{% url 'landing:auth' %}">Личный кабинет</a></li>
+                        <li><a class="menu__item" href="{% url 'app:home' %}">Личный кабинет</a></li>
                     </ul>
                 </div>
             </div>

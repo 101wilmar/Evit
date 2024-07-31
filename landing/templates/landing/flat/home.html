@@ -158,6 +158,10 @@
             cursor: pointer;
         }
 
+        .title span {
+            margin: auto 10px;
+        }
+
         .title:hover {
         {#color: #cccccc;#}{#background: rgba(0, 0, 0, 0.31);#}
         }
@@ -340,6 +344,11 @@
         }
 
         @media screen and (max-width: 720px) {
+            .title {
+                display: flex;
+                flex-direction: column;
+            }
+
             .section-about {
                 padding: 10px;
                 font-size: 0.8em !important;
@@ -366,7 +375,7 @@
             }
 
             .project-item-card {
-                width: 100%;
+                width: fit-content;
             }
 
             .contact-forest {
@@ -423,7 +432,8 @@
              style="background-image: url({% static 'landing/img/layer-2.png' %});"></div>
         <div class="layers__item layer-3">
             <div class="hero-content">
-                <h1 class="colus-regular title mb-4">Интеллектуальный проектировщик долголетия <span></span>
+                <h1 class="colus-regular title mb-4 d-flex justify-content-between">
+                    <span>Интеллектуальный</span> <span>проектировщик</span> <span>долголетия</span>
                 </h1>
                 <a href="{% url 'app:start_quiz' %}"
                    class="button-start poiret-one-regular font-weight-bold">Начать</a>
@@ -448,7 +458,7 @@
                     <ul class="menu__box">
                         <li><a class="menu__item" href="{% url 'landing:home' %}#about">О проекте</a></li>
                         <li><a class="menu__item" href="{% url 'landing:home' %}#contact">Контакты</a></li>
-                        <li><a class="menu__item" href="{% url 'landing:auth' %}">Личный кабинет</a></li>
+                        <li><a class="menu__item" href="{% url 'app:home' %}">Личный кабинет</a></li>
                     </ul>
                 </div>
             </div>
@@ -489,19 +499,23 @@
              class="contact-forest">
         <div class="contact-card">
             <h1 style="color: black; text-align: center; margin: 20px" class="colus-regular">
-                Подписка
+                Контакты
             </h1>
 
             <hr color="grey" style="margin: 20px">
-            <div style="display:flex; justify-content: center">
-                <input type="text"
-                       style="max-width: 420px; padding: 10px; border-radius: 5px; background-color: #e7f5dc; height: 50px"
-                       placeholder="Ваша почта" class="colus-regular">
-                <button type="submit" class="colus-regular"
-                        style="height: 50px; padding: 5px; margin-left: -10px; background-color: black; color: white">
-                    Подписаться
-                </button>
-            </div>
+            <table style="text-align: center; width: 100%">
+                <tbody>
+
+                <tr>
+                    <th>Номер</th>
+                    <td>+79220791980</td>
+                </tr>
+                <tr>
+                    <th>Почта</th>
+                    <td>automaticworkers@gmail.com</td>
+                </tr>
+                </tbody>
+            </table>
             <span class="colus-regular"
                   style="display:block; text-align: center; color: black; margin-top: 15px">либо</span>
             <div style="display: flex; justify-content: center" class="social">
@@ -546,23 +560,11 @@
     background: black;
     width: 100%;
     opacity: .7;">
-    <div style="display: flex; height: 100% ">
-        <div style="width: 33.3%; height: 100%">
+    <div style="height: 100% ">
+        <div style="width: 100%; height: 100%">
             <div style="display: flex; justify-content: center; align-items: center; height: 100%; flex-direction: column">
                 <table style="color: white !important; text-align: left">
                     <tbody>
-                    <tr>
-                        <th>Номер</th>
-                        <td>+79220791980</td>
-                    </tr>
-                    <tr>
-                        <th>Почта</th>
-                        <td>automaticworkers@gmail.com</td>
-                    </tr>
-                    <tr>
-                        <th>Почта</th>
-                        <td>automaticworkers@gmail.com</td>
-                    </tr>
                     <tr>
                         <th colspan="2">
                             ИП Томилов А.А.
@@ -583,7 +585,8 @@
                     </tr>
                     <tr>
                         <td colspan="2">
-                            <a href="{% static 'app/files/Cогласие_на_обработку_персональных_данных.pdf' %}" style="color: lightblue">Согласие на
+                            <a href="{% static 'app/files/Cогласие_на_обработку_персональных_данных.pdf' %}"
+                               style="color: lightblue">Согласие на
                                 обработку персональных данных</a>
                         </td>
                     </tr>
@@ -591,8 +594,6 @@
                 </table>
             </div>
         </div>
-        <div style="width: 33.3%; height: 100%"></div>
-        <div class="col-4"></div>
     </div>
 </section>
 {#<script>#}

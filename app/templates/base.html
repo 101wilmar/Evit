@@ -89,6 +89,15 @@
         </div>
         <div class="navbar-content scroll-div">
             <ul class="nav pcoded-inner-navbar">
+
+                <li data-username="Sample Page" class="nav-item">
+                    <a href="{% url 'app:start_quiz' %}" class="nav-link">
+                        <div class="btn btn-success text-white w-100">
+                            Пройти тест
+                        <i class="feather icon-play"></i>
+                        </div>
+                    </a>
+                </li>
                 <li class="nav-item pcoded-menu-caption">
                     <label>Основное</label>
                 </li>
@@ -113,7 +122,7 @@
                 <li class="nav-item {% if '/quiz' in request.path %}active{% endif %}">
                     <a href="{% url 'app:quiz_list' %}" class="nav-link">
                         <div class="pcoded-micon"><i class="feather icon-folder"></i></div>
-                        <span class="pcoded-mtext">Архив тестов</span>
+                        <span class="pcoded-mtext">Результаты тестов</span>
                     </a>
                 </li>
                 <li class="nav-item {% if '/subscription' in request.path %}active{% endif %}">
@@ -268,7 +277,7 @@
                             <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>{% block name %}{% endblock %}</h5>
+                                        <h5 class="w-100">{% block name %}{% endblock %}</h5>
                                     </div>
                                     <div class="card-block">
                                         {% block content %}

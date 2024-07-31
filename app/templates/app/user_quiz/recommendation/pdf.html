@@ -30,6 +30,13 @@
     Точность прогноза <b>{{ user_quiz.accuracy }}</b>
 </p>
 <hr>
+<p>
+    Обращаем Ваше внимание, что согласно Федеральному закону №323-ФЗ от 21.11.2011 «Об основах охраны здоровья
+    граждан в Российской Федерации» устанавливает диагноз и назначает лечение лечащий врач, используя полную и
+    всестороннюю информацию о пациенте. Согласно этому, представленные рекомендации не являются официальными и
+    должны быть клинически интерпретированы Вашим лечащим врачом.
+</p>
+<hr>
 {% for recommendation_user_answer in recommendation_user_answers %}
     {% with recommendation_user_answer.question.recommendation as recommendation %}
         <h3 class="bg-dark text-white rounded w-auto p-1">{{ forloop.counter }}. {{ recommendation_user_answer.question.text }}</h3>

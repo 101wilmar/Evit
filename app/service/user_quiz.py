@@ -1,7 +1,50 @@
+import io
 import random
 from decimal import Decimal
 
+import pdfkit
 from django.db.models import Sum
+from django.http import HttpResponse
+from django.template.loader import get_template
+
+from constants import PATH_WKHTMLTOPDF
+
+
+def get_user_quiz_pdf(user_quiz, return_io: bool = False):
+    user = user_quiz.user
+    template = get_template('app/user_quiz/recommendation/pdf.html')
+    recommendation_user_answers = user_quiz.user_answers.annotate(
+        duration_sum=Sum('answers__duration')
+    ).exclude(
+        question__is_recommendation=False
+    ).filter(
+        duration_sum__lt=0,
+    ).order_by('question_id')
+    recommendation_user_answers = recommendation_user_answers.select_related('question')
+    html = template.render({
+        'user': user,
+        'user_quiz': user_quiz,
+        'recommendation_user_answers': recommendation_user_answers
+    })
+    options = {
+        'margin-top': '0.3cm',
+        'margin-right': '1.0cm',
+        'margin-bottom': '0.0cm',
+        'margin-left': '2.0cm',
+        'page-size': 'A4',
+        'copies': 1,
+        # 'dpi': 96
+    }
+
+    config = pdfkit.configuration(wkhtmltopdf=PATH_WKHTMLTOPDF) if PATH_WKHTMLTOPDF else None
+
+    pdf = pdfkit.from_string(html, False, options, configuration=config)
+    if return_io:
+        return io.BytesIO(pdf)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response[
+        'Content-Disposition'] = f'attachment;filename = "recommendation-{user_quiz.created_at.strftime("%d.%m.%Y")}.pdf"'
+    return response
 
 
 def calculate_life_expectancy(user_quiz) -> dict:
