@@ -41,7 +41,8 @@ class UserQuiz(BaseModel):
             if self.duration < self.current_age:
                 return self.current_age + 1
         except:
-            return self.duration
+            pass
+        return self.duration
 
 
 class UserAnswer(BaseModel):
