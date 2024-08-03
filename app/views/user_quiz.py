@@ -124,7 +124,9 @@ def user_quiz_recommendation_send(request, user_quiz_id: int):
 
     is_active_subscriptions = get_active_subscriptions_exists(request.user)
     if not is_active_subscriptions:
-        messages.warning(request, 'Для отправки рекомендации оплатите подписку')
+        messages.warning(request,
+                         'Для отправки рекомендации <a href="/app/subscription" style="color: blue">оплатите подписку</a>')
+
         return redirect(reverse('app:quiz_list'))
 
     pdf_io = get_user_quiz_pdf(user_quiz, True)
@@ -145,7 +147,9 @@ def user_quiz_recommendation_pdf(request, user_quiz_id: int):
     role = request.user.profile.role
     is_active_subscriptions = get_active_subscriptions_exists(request.user)
     if not is_active_subscriptions and role != Profile.RoleChoices.ADMIN.value:
-        messages.warning(request, 'Для скачивания рекомендации оплатите подписку')
+        messages.warning(request,
+                         'Для скачивания рекомендации <a href="/app/subscription" style="color: blue">оплатите подписку</a>')
+
         return redirect(reverse('app:quiz_list'))
     response = get_user_quiz_pdf(user_quiz)
     return response
