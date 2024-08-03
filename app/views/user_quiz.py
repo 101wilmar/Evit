@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.template.loader import get_template
 
-from app.models import UserQuiz, Location, Question
+from app.models import UserQuiz, Location, Question, Profile
 from app.models.quiz import Quiz
 from app.service.quiz import save_user_quiz, set_life_expectancy
 from app.service.user_quiz import calculate_life_expectancy, get_user_quiz_pdf
@@ -142,9 +142,9 @@ def user_quiz_recommendation_send(request, user_quiz_id: int):
 @login_required
 def user_quiz_recommendation_pdf(request, user_quiz_id: int):
     user_quiz = get_object_or_404(UserQuiz, id=user_quiz_id)
-
+    role = request.user.profile.role
     is_active_subscriptions = get_active_subscriptions_exists(request.user)
-    if not is_active_subscriptions:
+    if not is_active_subscriptions or not role != Profile.RoleChoices.ADMIN:
         messages.warning(request, 'Для скачивания рекомендации оплатите подписку')
         return redirect(reverse('app:quiz_list'))
     response = get_user_quiz_pdf(user_quiz)
