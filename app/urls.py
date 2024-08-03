@@ -19,13 +19,17 @@ urlpatterns = [
     # Referral
     path('referral', views.referral_list, name='referral_list'),
 
+    # User Quiz for admin
+    path('user-quizzes', views.user_quiz_list, name='user_quiz_list'),
+
     # User Quiz
     path('quiz', views.quiz_list, name='quiz_list'),
-    path('quiz/start', views.start_quiz, name='start_quiz'),
+    path('start-quiz', views.start_quiz, name='start_quiz'),
     path('quiz/save', views.save_quiz, name='save_quiz'),
     path('quiz/<int:user_quiz_id>', views.quiz_detail, name='quiz_detail'),
     path('quiz/<int:user_quiz_id>/recommendation', views.user_quiz_recommendation, name='user_quiz_recommendation'),
-    path('quiz/<int:user_quiz_id>/recommendation/send', views.user_quiz_recommendation_send, name='user_quiz_recommendation_send'),
+    path('quiz/<int:user_quiz_id>/recommendation/send', views.user_quiz_recommendation_send,
+         name='user_quiz_recommendation_send'),
     path('quiz/<int:user_quiz_id>/recommendation/pdf', views.user_quiz_recommendation_pdf,
          name='user_quiz_recommendation_pdf'),
 

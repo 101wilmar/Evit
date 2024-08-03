@@ -21,7 +21,7 @@
     <meta name="author" content="CodedThemes"/>
 
     <!-- Favicon icon -->
-    <link rel="icon" href="{% static 'app/images/logo-health.png' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'app/images/logo.jpg' %}" type="image/x-icon">
     <!-- fontawesome icon -->
     <link rel="stylesheet" href="{% static 'app/fonts/fontawesome/css/fontawesome-all.min.css' %}">
     <!-- animation css -->
@@ -80,8 +80,8 @@
     <div class="navbar-wrapper">
         <div class="navbar-brand header-logo">
             <a href="{% url 'landing:home' %}" class="b-brand">
-                <div class="b-bg">
-                    <i class="feather icon-heart"></i>
+                <div class="bg-white rounded">
+                    <img src="{% static 'app/images/logo.png' %}" alt="" width="40" height="40">
                 </div>
                 <span class="b-title">Долголетие</span>
             </a>
@@ -94,7 +94,7 @@
                     <a href="{% url 'app:start_quiz' %}" class="nav-link">
                         <div class="btn btn-success text-white w-100">
                             Пройти тест
-                        <i class="feather icon-play"></i>
+                            <i class="feather icon-play"></i>
                         </div>
                     </a>
                 </li>
@@ -144,10 +144,17 @@
                     <li class="nav-item pcoded-menu-caption">
                         <label>Управление</label>
                     </li>
-                    <li data-username="Users" class="nav-item {% if '/user' in request.path %}active{% endif %}">
+                    <li data-username="Users" class="nav-item {% if '/app/user' == request.path %}active{% endif %}">
                         <a href="{% url 'app:user_list' %}" class="nav-link">
                             <div class="pcoded-micon"><i class="feather icon-users"></i></div>
                             <span class="pcoded-mtext">Пользователи</span>
+                        </a>
+                    </li>
+                    <li data-username="Users"
+                        class="nav-item {% if '/user-quizzes' in request.path %}active{% endif %}">
+                        <a href="{% url 'app:user_quiz_list' %}" class="nav-link">
+                            <div class="pcoded-micon"><i class="feather icon-folder"></i></div>
+                            <span class="pcoded-mtext">Результаты</span>
                         </a>
                     </li>
                     <li data-username="Users" class="nav-item {% if '/payment' in request.path %}active{% endif %}">

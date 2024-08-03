@@ -16,6 +16,14 @@ from app.service.user_quiz import calculate_life_expectancy, get_user_quiz_pdf
 from constants import PATH_WKHTMLTOPDF
 
 
+@login_required()
+def user_quiz_list(request):
+    user_quizzes = UserQuiz.objects.all().order_by('-created_at')
+    return render(request, 'app/user_quiz/all.html', {
+        'user_quizzes': user_quizzes,
+    })
+
+
 @login_required
 def quiz_list(request):
     user = request.user

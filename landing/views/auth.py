@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 from app.models import Referral
+from app.service.subsciption import activate_year_subscription
 from constants import DOMAIN
 from landing.forms.user import UserForm
 
@@ -72,6 +73,8 @@ def sign_up(request):
             if referral_code:
                 referral = Referral.objects.filter(code=referral_code).first()
                 referral.referred_users.add(user)
+                if referral.referred_user.count == 5:
+                    activate_year_subscription(referral.user)
         except Exception as e:
             print(e.__class__)
             print(e.__class__.__name__)

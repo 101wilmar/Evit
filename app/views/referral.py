@@ -9,7 +9,10 @@ from constants import DOMAIN
 def referral_list(request):
     user = request.user
     referred_users = user.referral.referred_users.all()
+    count = 5 - referred_users.count()
+    count = 0 if count < 0 else count
     return render(request, 'app/referral/list.html', {
         'referred_users': referred_users,
-        'domain': DOMAIN
+        'domain': DOMAIN,
+        'count': count
     })

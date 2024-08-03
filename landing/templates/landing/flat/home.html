@@ -10,6 +10,7 @@
     <script src="{% static 'landing/libs/rain.js' %}" defer=""></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="{% static 'app/images/logo.jpg' %}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Raleway&display=swap" rel="stylesheet">
     <style>
         #menu__toggle {
@@ -261,6 +262,17 @@
             background-size: cover;
         }
 
+        .section-tariffs {
+            height: 100vh;
+            padding: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            background-color: #f8f8f8;
+        {#background-color: #dafae5;#}
+        }
+
         .section-about {
             font-size: 1.2em !important;
         }
@@ -293,6 +305,14 @@
             opacity: 80%;
             box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 
+        }
+
+        .card {
+            padding: 15px;
+            background-color: white;
+            border-radius: 15px;
+            opacity: 80%;
+            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
         }
 
         .bold {
@@ -343,10 +363,50 @@
             border-radius: 15px
         }
 
+        .subscription-cards {
+            display: flex;
+            justify-content: center;
+            background-color: #fef4d9;
+            padding: 20px 100px;
+            border-radius: 15px;
+            width: 100%;
+            min-width: 400px;
+            border: 1px solid lightgrey;
+        }
+
+        .subscription-card {
+            margin: 20px;
+            height: 450px;
+            width: 270px;
+            color: black;
+            text-align: center;
+        }
+
         @media screen and (max-width: 720px) {
             .title {
                 display: flex;
                 flex-direction: column;
+            }
+
+            .subscription-cards {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 20px;
+                background-color: #fef4d9;
+                border-radius: 15px;
+                min-width: 100% !important;
+                {#width: 100% !important;#}
+                border: 1px solid lightgrey;
+            }
+
+            .subscription-card {
+                margin: 10px auto;
+                height: fit-content;
+            }
+
+            .subscription-card img {
+                width: 30% !important;
             }
 
             .section-about {
@@ -492,6 +552,68 @@
         </div>
     </div>
 </section>
+<section id="tariffs" class="section-tariffs">
+    <div>
+        <h1 class="colus-regular" style="color: #000; text-align: center">
+            Тарифы
+        </h1>
+        <hr style="margin: 20px auto">
+        <div class="subscription-cards">
+            <div class="card subscription-card">
+                <div class="card-header text-center">
+                    <span style="color: #db6a38">Месячная подписка</span>
+                </div>
+                <hr style="margin: 10px auto">
+                <div style="display: flex; flex-direction: column; justify-content: space-between; height: 90%">
+                    <div>
+                        <img src="{% static 'app/images/logo.png' %}" alt="" style="width: 100%">
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center; flex-direction: column; width: 100%;">
+                        <div style="width: 100%; color: #0b2e13">
+                            <hr style="margin: 10px auto">
+                            <b>299 рублей</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card subscription-card">
+                <div class="card-header text-center">
+                    <span style="color: #db6a38">Годовая подписка</span>
+                </div>
+                <hr style="margin: 10px auto">
+                <div style="display: flex; flex-direction: column; justify-content: space-between; height: 90%">
+                    <div>
+                        <img src="{% static 'app/images/logo.png' %}" alt="" style="width: 100%">
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center; flex-direction: column; width: 100%;">
+                        <div style="width: 100%; color: #0b2e13">
+                            <hr style="margin: 10px auto">
+                            <b>2990 рублей</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card subscription-card">
+                <div class="card-header text-center">
+                    <span style="color: #db6a38">Годовая подписка</span>
+                </div>
+                <hr style="margin: 10px auto">
+                <div style="display: flex; flex-direction: column; justify-content: space-between; height: 90%">
+                    <div>
+                        <img src="{% static 'app/images/logo.png' %}" alt="" style="width: 100%">
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center; flex-direction: column; width: 100%;">
+                        <div style="width: 100%; color: #0b2e13;">
+                            <span style="font-size: 12px">*Если привести 5 человек</span>
+                            <hr style="margin: 10px auto">
+                            <b>0 рублей</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <section id="contact" class="section-contact"
          style="height: 100vh; background-image: url({% static 'landing/img/contact-bg.png' %}); background-size: cover; background-color: white">
     <div style="">
@@ -508,11 +630,11 @@
 
                 <tr>
                     <th>Номер</th>
-                    <td>+79220791980</td>
+                    <td>+7 909 184 6111</td>
                 </tr>
                 <tr>
                     <th>Почта</th>
-                    <td>automaticworkers@gmail.com</td>
+                    <td>e.v.chesnokov@me.com</td>
                 </tr>
                 </tbody>
             </table>
@@ -532,7 +654,7 @@
                     </svg>
                 </a>
 
-                <a href="https://wa.me/79220791980">
+                <a href="https://wa.me/79091846111">
                     <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100"
                          viewBox="0 0 48 48">
                         <path fill="#fff"
@@ -572,11 +694,7 @@
                     </tr>
                     <tr>
                         <th>ИНН</th>
-                        <td>860202247307</td>
-                    </tr>
-                    <tr>
-                        <th>ОГРНИП</th>
-                        <td>322723200056195</td>
+                        <td>720301399077</td>
                     </tr>
                     <tr>
                         <td colspan="2">

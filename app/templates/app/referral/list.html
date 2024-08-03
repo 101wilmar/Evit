@@ -22,6 +22,9 @@
 {% endblock %}
 
 {% block content %}
+    <h5 class="text-center">
+        Чтобы получить годовую подписку осталось пригласить: <span class="text-warning">{{ count }} человек</span>
+    </h5>
     {% if referred_users.exists %}
         <table class="table table-bordered table-responsive-md table-hover table-sm text-center w-100">
             <thead>
