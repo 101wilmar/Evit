@@ -17,7 +17,7 @@
             <td>{{ user_quiz.quiz.name }}</td>
             <td>{{ user_quiz.created_at|date:'d.m.Y H:i' }}</td>
             <td>{{ user_quiz.user_answers.count }} / {{ user_quiz.quiz.questions.count }}</td>
-            <td>{{ user_quiz.duration }}</td>
+            <td>{{ user_quiz.get_duration }}</td>
             <td>{{ user_quiz.accuracy }}%</td>
             <td>
                 <a href="{% url 'app:user_quiz_recommendation' user_quiz.id %}" class="m-2">

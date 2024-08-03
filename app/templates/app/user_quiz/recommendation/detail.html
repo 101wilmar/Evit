@@ -52,7 +52,7 @@
     <span class="text-black text-center d-block">Точность: {{ user_quiz.accuracy|floatformat }}%</span>
     <hr>
     <span class="mt-4 m-auto d-block"
-          style="border-radius: 15px; width: fit-content; font-size: 27px; padding: 10px 50px">{{ user_quiz.duration|floatformat }} лет</span>
+          style="border-radius: 15px; width: fit-content; font-size: 27px; padding: 10px 50px">{{ user_quiz.get_duration|floatformat }} лет</span>
     <hr>
     {% if is_active_subscriptions %}
         <p>

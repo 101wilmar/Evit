@@ -26,7 +26,7 @@
 <body style="font-size: 16px">
 <h2 style="text-align: center">{{ user.profile.get_full_name }}</h2>
 <p style="text-align: center">
-    Ваша предполагаемая продолжительность жизни <b>~{{ user_quiz.duration }}</b><br>
+    Ваша предполагаемая продолжительность жизни <b>~{{ user_quiz.get_duration }}</b><br>
     Точность прогноза <b>{{ user_quiz.accuracy }}</b>
 </p>
 <hr>

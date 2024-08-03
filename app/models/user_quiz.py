@@ -35,6 +35,14 @@ class UserQuiz(BaseModel):
         data = calculate_life_expectancy(self)
         return data
 
+    @property
+    def get_duration(self):
+        try:
+            if self.duration < self.current_age:
+                return self.current_age + 1
+        except:
+            return self.duration
+
 
 class UserAnswer(BaseModel):
     user_quiz = models.ForeignKey(
