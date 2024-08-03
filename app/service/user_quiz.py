@@ -3,6 +3,7 @@ import random
 from decimal import Decimal
 
 import pdfkit
+from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.template.loader import get_template
@@ -11,7 +12,9 @@ from constants import PATH_WKHTMLTOPDF
 
 
 def get_user_quiz_pdf(user_quiz, return_io: bool = False):
-    user = user_quiz.user
+    user: User = user_quiz.user
+    user_quizzes_ids = list(user.user_quizzes.all().order_by('created_at').values_list('id', flat=True))
+    count = user_quizzes_ids.index(user_quiz.id) + 1
     template = get_template('app/user_quiz/recommendation/pdf.html')
     recommendation_user_answers = user_quiz.user_answers.annotate(
         duration_sum=Sum('answers__duration')
@@ -43,7 +46,7 @@ def get_user_quiz_pdf(user_quiz, return_io: bool = False):
         return io.BytesIO(pdf)
     response = HttpResponse(pdf, content_type='application/pdf')
     response[
-        'Content-Disposition'] = f'attachment;filename = "recommendation-{user_quiz.created_at.strftime("%d.%m.%Y")}.pdf"'
+        'Content-Disposition'] = f'attachment;filename = f"№{count} Рекомендации E-VIT {user_quiz.created_at.strftime("%d.%m.%Y")}.pdf"'
     return response
 
 
