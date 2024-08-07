@@ -373,6 +373,12 @@
             min-width: 400px;
             border: 1px solid lightgrey;
         }
+        .subs-info {           
+            text-align: center;
+            color: black;
+            padding: 10px;
+            background-color: #f5f5f5;  
+        }
 
         .subscription-card {
             margin: 20px;
@@ -398,6 +404,7 @@
                 min-width: 100% !important;
             {#width: 100% !important;#} border: 1px solid lightgrey;
             }
+
 
             .subscription-card {
                 margin: 10px auto;
@@ -561,7 +568,7 @@
         <div class="subscription-cards">
             <div class="card subscription-card">
                 <div class="card-header text-center">
-                    <span style="color: #db6a38">Месячная подписка</span>
+                    <span style="color: #db6a38">Разовый</span>
                 </div>
                 <hr style="margin: 10px auto">
                 <div style="display: flex; flex-direction: column; justify-content: space-between; height: 90%">
@@ -578,7 +585,7 @@
             </div>
             <div class="card subscription-card">
                 <div class="card-header text-center">
-                    <span style="color: #db6a38">Годовая подписка</span>
+                    <span style="color: #db6a38">Годовой</span>
                 </div>
                 <hr style="margin: 10px auto">
                 <div style="display: flex; flex-direction: column; justify-content: space-between; height: 90%">
@@ -595,7 +602,7 @@
             </div>
             <div class="card subscription-card">
                 <div class="card-header text-center">
-                    <span style="color: #db6a38">Годовая подписка</span>
+                    <span style="color: #db6a38">Годовой</span>
                 </div>
                 <hr style="margin: 10px auto">
                 <div style="display: flex; flex-direction: column; justify-content: space-between; height: 90%">
@@ -611,6 +618,13 @@
                     </div>
                 </div>
             </div>
+            
+        </div>
+        <div class='card subs-info'>Выберите удобный тариф разовый (299 рублей) , годовой (2990 рублей)  или приведите 5 друзей по реферальной ссылке из <a href="{% url 'app:referral_list'%}"> личного кабинета</a> и получите бесплатную подписку на 1 год.
+            <br> 
+            Приобретение подписки позволит рассчитать предполагаемую продолжительность жизни на момент проведения тестирования; выявить показатели, требующие коррекции для увеличения продолжительности жизни;
+             активирует функцию динамического наблюдения за изменением показателей;
+             активирует формирование рекомендаций, осуществляемых искусственным интеллектом на основе тестирования (носит рекомендательный характер).
         </div>
     </div>
 </section>
@@ -625,15 +639,15 @@
             </h1>
 
             <hr color="grey" style="margin: 20px">
-            <table style="text-align: center; width: 100%">
+            <table style="align-items: center; width: 100%">
                 <tbody>
 
                 <tr>
-                    <th>Номер</th>
+                    <th>Телефон:</th>
                     <td>+7 909 184 6111</td>
                 </tr>
                 <tr>
-                    <th>Почта</th>
+                    <th>Почта:</th>
                     <td>e.v.chesnokov@me.com</td>
                 </tr>
                 </tbody>
