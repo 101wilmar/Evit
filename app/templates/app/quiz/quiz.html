@@ -92,7 +92,7 @@
                     <select name="{{ question.id }}" id="" class="form-control select"
                             {% if question.is_multiple %}multiple{% endif %}>
                         {% if not question.is_required %}
-                            <option value="">Нет</option>
+                            <option value="">-</option>
                         {% endif %}
                         {% for answer in question.answers.all %}
                             <option value="{{ answer.id }}">{{ answer.text }}</option>

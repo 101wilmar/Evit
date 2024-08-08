@@ -263,7 +263,7 @@
         }
 
         .section-tariffs {
-            height: 100vh;
+            height: auto;
             padding: 100px;
             display: flex;
             justify-content: center;
@@ -395,6 +395,7 @@
             }
 
             .subscription-cards {
+                height: auto;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -404,7 +405,6 @@
                 min-width: 100% !important;
             {#width: 100% !important;#} border: 1px solid lightgrey;
             }
-
 
             .subscription-card {
                 margin: 10px auto;
@@ -450,6 +450,7 @@
 
             .mobile-nav {
                 display: block;
+                position: fixed;
             }
 
             .contact-card {
@@ -514,9 +515,9 @@
         <div class="layers__item layer-6"
              style="background-image: url({% static 'landing/img/layer-6.png' %});"></div>
     </div>
-    <div style="position:absolute; display: flex; padding: 30px 10px; z-index: 0; color:#000; width: 100%; top: 0">
+    <div style="position:absolute; display: flex; padding: 30px 10px; z-index: 0; color:#000; width: 100%; top: 0;">
         <div class="d-flex justify-content-between w-100">
-            <div class="mobile-nav">
+            <div class="mobile-nav" style="position: fixed;">
                 <div class="hamburger-menu">
                     <input id="menu__toggle" type="checkbox"/>
                     <label class="menu__btn" for="menu__toggle">
@@ -620,7 +621,7 @@
             </div>
             
         </div>
-        <div class='card subs-info'>Выберите удобный тариф разовый (299 рублей) , годовой (2990 рублей)  или приведите 5 друзей по реферальной ссылке из <a href="{% url 'app:referral_list'%}"> личного кабинета</a> и получите бесплатную подписку на 1 год.
+        <div class='card subs-info'>Выберите удобный тариф разовый (299 рублей) , годовой (2990 рублей)  или приведите 5 друзей по реферальной ссылке из <a href="{% url 'app:cabinet'%}"> личного кабинета</a> и получите бесплатную подписку на 1 год.
             <br> 
             Приобретение подписки позволит рассчитать предполагаемую продолжительность жизни на момент проведения тестирования; выявить показатели, требующие коррекции для увеличения продолжительности жизни;
              активирует функцию динамического наблюдения за изменением показателей;
@@ -639,15 +640,15 @@
             </h1>
 
             <hr color="grey" style="margin: 20px">
-            <table style="align-items: center; width: 100%">
+            <table style="align-items: center; width: 100%; margin-left:7.5%;">
                 <tbody>
 
                 <tr>
-                    <th>Телефон:</th>
-                    <td>+7 909 184 6111</td>
+                    <th style="text-align: left;">Телефон:</th>
+                    <td >+7 909 184 6111</td>
                 </tr>
                 <tr>
-                    <th>Почта:</th>
+                    <th style="text-align: left;">Почта:</th>
                     <td>e.v.chesnokov@me.com</td>
                 </tr>
                 </tbody>
