@@ -1,6 +1,7 @@
 import io
 import random
 from decimal import Decimal
+from urllib.parse import quote
 
 import pdfkit
 from django.contrib.auth.models import User
@@ -45,7 +46,8 @@ def get_user_quiz_pdf(user_quiz, return_io: bool = False):
     if return_io:
         return io.BytesIO(pdf)
     response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="№{count}_Рекомендации_E-VIT_{user_quiz.created_at.strftime("%d.%m.%Y")}.pdf"'
+    filename = f"No_{count}_Recommendation_E-VIT_{user_quiz.created_at.strftime('%d-%m-%Y')}.pdf"
+    response['Content-Disposition'] = f'attachment; filename="{quote(filename)}"'
     return response
 
 
