@@ -44,6 +44,7 @@
                 <input type="text" class="form-control" name="username"
                        value="{{ user.username|default:'' }}">
             </div>
+            {% if is_active_subscriptions or role == admin_role %}
             <div class="mb-1 col-12 p-2" style="box-sizing: border-box">
                 <label for="" class="d-block">Реферальная ссылка</label>
                 <input type="text" class="form-control w-auto d-inline" disabled
@@ -53,6 +54,11 @@
                     <i class="fa fa-copy m-auto"></i>
                 </button>
             </div>
+            {% else %}
+            <div class="card-body text-center">
+                При оплате <a href="{% url 'app:subscription_plans' %}">одного теста</a> открывается возможность получить годовую подписку бесплатно, если вы приведете 5 друзей
+            </div>
+            {% endif %}
             <div class="col-12 align-self-center p-2 m-auto d-flex justify-content-center" style="box-sizing: border-box">
                 <button type="submit" class="btn btn-success">
                     <i class="fa fa-edit"></i>
@@ -64,7 +70,44 @@
 {% endblock %}
 
 {% block script %}
-    <script>
+<script>
+    function copyReferralCode(referralCode) {
 
-    </script>
+        var tempInput = document.createElement("input");
+        tempInput.style.position = "absolute";
+        tempInput.style.left = "-9999px";
+        tempInput.value = referralCode;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+
+        // Отображение
+        showCustomNotification("Реферальная ссылка скопирована в буфер обмена. Отправьте ее любым удобным способом тем, кого хотите пригласить!");
+    }
+
+    function showCustomNotification(message) {
+        // Элемент уведомления
+        var notification = document.createElement("div");
+        notification.innerText = message;
+        notification.style.position = "fixed";
+        notification.style.top = "20px"; 
+        notification.style.left = "50%"; 
+        notification.style.transform = "translateX(-50%)"; 
+        notification.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+        notification.style.color = "#fff";
+        notification.style.padding = "10px 20px";
+        notification.style.borderRadius = "5px";
+        notification.style.zIndex = "1000";
+        notification.style.fontSize = "14px";
+        notification.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.5)";
+        document.body.appendChild(notification);
+
+        
+        setTimeout(function() {
+            document.body.removeChild(notification);
+        }, 4000);
+    }
+</script>
+
 {% endblock %}

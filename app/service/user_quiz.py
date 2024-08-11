@@ -46,7 +46,7 @@ def get_user_quiz_pdf(user_quiz, return_io: bool = False):
         return io.BytesIO(pdf)
     response = HttpResponse(pdf, content_type='application/pdf')
     response[
-        'Content-Disposition'] = f'attachment;filename = f"№{count}_Рекомендации_E-VIT{user_quiz.created_at.strftime("%d.%m.%Y")}.pdf"'
+        'Content-Disposition'] = f'attachment; filename="№{count}_Рекомендации_E-VIT_{user_quiz.created_at.strftime("%d.%m.%Y")}.pdf"'
     return response
 
 

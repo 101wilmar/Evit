@@ -45,7 +45,7 @@ class Question(BaseModel):
 class Answer(BaseModel):
     text = models.TextField()
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
-    duration = models.DecimalField(max_digits=4, decimal_places=2, default=0)
+    duration = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
     class Meta:
         verbose_name = 'Вариант'

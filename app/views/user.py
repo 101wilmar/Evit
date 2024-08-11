@@ -5,12 +5,18 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 
 from app.forms.user import UserUpdateForm, ProfileUpdateForm
 from app.models import Profile
+from app.views.user_quiz import get_active_subscriptions_exists
 from constants import DOMAIN
 
 
 @login_required
 def cabinet(request):
+    is_active_subscriptions = get_active_subscriptions_exists(request.user)
+    role = request.user.profile.role
     return render(request, 'app/user/cabinet.html', {
+        'admin_role': Profile.RoleChoices.ADMIN.value,
+        'is_active_subscriptions': is_active_subscriptions,
+        'role': role,
         'user': request.user,
         'domain': DOMAIN
     })

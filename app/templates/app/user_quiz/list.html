@@ -23,10 +23,12 @@
 
 {% block content %}
     {% if user_quizzes.exists %}
-        <a href="{% url 'app:start_quiz' %}" class="btn btn-sm btn-success w-100 d-block m-auto mb-4" style="max-width: 200px; margin: 10px auto !important; margin-top: -20px !important;">
-            <i class="feather icon-edit"></i>
-            Пройти тест
+        <a href="{% url 'app:start_quiz' %}" class="btn btn-sm btn-success w-100 d-block m-auto mb-4" style="max-width: 200px; margin: 10px auto !important; margin-top: -20px !important;">         
+                Пройти тест
+                <i class="feather icon-play"></i>
         </a>
+    
+
         {% include 'app/include/user_quiz/table.html' with user_quizzes=user_quizzes %}
     {% else %}
         <div class="text-black-50 text-center mt-4 w-100 m-auto d-block">
