@@ -138,7 +138,7 @@ def user_quiz_recommendation_send(request, user_quiz_id: int):
     email.send()
     messages.success(request, 'Рекомендация отправлена на почту')
 
-    return redirect(reverse('app:user_quiz_recommendation', args=[user_quiz.id]))
+    return redirect(reverse('app:user_quiz_recommendation', args=[user_quiz.id]), {'is_active_subscriptions': is_active_subscriptions})
 
 
 @login_required
