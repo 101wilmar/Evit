@@ -141,16 +141,28 @@ MEDIA_ROOT = BASE_DIR / MEDIA_URL
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.report.me'  #  сервера исходящей почты (SMTP сервер)
-EMAIL_HOST_USER = 'e-vit@report.me'  #  почтовый адрес
-EMAIL_HOST_PASSWORD = '@C7z#gJ}pOyaczCJ'  # Пароль от почтового ящика
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = 'mail.report.me'  #  сервера исходящей почты (SMTP сервер)
+#EMAIL_HOST_USER = 'e-vit@report.me'  #  почтовый адрес
+#EMAIL_HOST_PASSWORD = '@C7z#gJ}pOyaczCJ'  # Пароль от почтового ящика
 
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_HOST_USER = 'ansagankabdolla4@gmail.com'
 # EMAIL_HOST_PASSWORD = 'rqmr wiyu sckf kfgp'
+#EMAIL_PORT = 587
+#EMAIL_USE_TLS = True
+
+# Конфигурация SMTP
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.report.me'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'e-vit@report.me'
+EMAIL_HOST_PASSWORD = '@C7z#gJ}pOyaczCJ'  # Замени на реальный пароль
+
+# Установка адресов по умолчанию
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'mail.report.me'

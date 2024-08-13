@@ -51,6 +51,7 @@
                     </td>
                     <td class="align-middle">{{ user.date_joined }}</td>
                     <td class="align-middle">
+                        {% if user.profile.uuid %}
                         {% if user.is_active %}
                             <a href="{% url 'app:unverify_user' user.profile.uuid %}"
                                class="btn btn-sm btn-success p-1 text-center" style="width: 180px">
@@ -62,6 +63,9 @@
                                 <i class="feather icon-x m-auto"></i> не активирован
                             </a>
                         {% endif %}
+                    {% else %}
+                        <span class="text-danger">UUID не найден</span>
+                    {% endif %}
                     </td>
                 </tr>
             {% endfor %}
