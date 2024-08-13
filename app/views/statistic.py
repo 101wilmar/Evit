@@ -14,7 +14,7 @@ def statistic(request):
     role = request.user.profile.role
     if not is_active_subscriptions and role != Profile.RoleChoices.ADMIN.value:
         messages.warning(request,
-                         'Для статистики <a href="/app/subscription" style="color: blue;">оплатите подписку</a>')
+                         'Для просмотра раздела Статистика <a href="/app/subscription" style="color: blue;">оплатите подписку</a>')
 
         return redirect(reverse('app:subscription_plans'))
     else:

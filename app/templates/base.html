@@ -55,6 +55,24 @@
         body {
             font-family: 'GTEEstiPro', sans-serif;
         }
+        /* Исходный стиль для иконки */
+
+        /* Исходный стиль кнопки */
+        .btn.btn-success.text-white.w-100 {
+            transition: transform 0.5s ease, padding 0.5s ease; /* Плавное изменение размера и отступов */
+            transform: scale(1); /* Исходный размер */
+            font-size: 1rem; /* Исходный размер шрифта */
+        }
+        
+        /* Уменьшенный размер кнопки с помощью отступов и шрифта */
+        .btn.btn-success.text-white.w-100.small {
+            text-align: right;
+            padding: 2%;
+
+        }
+        
+        
+        
     </style>
     <style>
 
@@ -122,9 +140,9 @@
             <ul class="nav pcoded-inner-navbar">
 
                 <li data-username="Sample Page" class="nav-item">
-                    <a href="{% url 'app:start_quiz' %}" class="nav-link">
+                    <a href="{% url 'app:start_quiz' %}" class="nav-link" id="start-quiz-btn">
                         <div class="btn btn-success text-white w-100">
-                            Пройти тест
+                            <span class="quiz-text">Пройти тест</span>
                             <i class="feather icon-play"></i>
                         </div>
                     </a>
@@ -239,29 +257,10 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-            <li>
-                <div class="dropdown">
-                    <a class="dropdown-toggle" href="javascript:" data-toggle="dropdown"><i
-                            class="icon feather icon-bell"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right notification">
-                        <div class="noti-head">
-                            <h6 class="d-inline-block m-b-0">Уведомления</h6>
-                            <div class="float-right">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </li>
+
             <li>
                 <div class="dropdown drp-user">
-                    <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="icon feather icon-settings"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right profile-notification">
-                        <div class="pro-head d-flex align-items-center">
-                            <img src="{% static 'app/images/avatar.jpeg' %}" class="img-radius"
-                                 alt="User-Profile-Image">
-                            <span>{{ request.user.get_full_name|default:'-' }}</span>
+                   
                             <form action="{% url 'logout' %}" method="post" id="logout-form">
                                 {% csrf_token %}
                                 <button style="width: 0px; height: 0px; border: 0; padding: 0; margin: 0">
@@ -271,16 +270,7 @@
                                     </a>
                                 </button>
                             </form>
-                        </div>
-                        <ul class="pro-body">
-                            <li><a href="javascript:" class="dropdown-item"><i class="feather icon-settings"></i>
-                                Настройки</a></li>
-                            <li><a href="javascript:" class="dropdown-item"><i class="feather icon-user"></i>
-                                Профиль</a></li>
-                            <li><a href="#" class="dropdown-item"><i class="feather icon-mail"></i>
-                                Сообщения</a></li>
-                        </ul>
-                    </div>
+
                 </div>
             </li>
         </ul>
@@ -399,6 +389,44 @@
         document.body.removeChild(textarea);
         alert('Скопировано')
     }
+
+
+    document.getElementById('mobile-collapse').addEventListener('click', function() {
+        var button = document.querySelector('.btn.btn-success.text-white.w-100');
+        
+        // Переключение класса .small: если он есть — убираем, если нет — добавляем
+        if (button.classList.contains('small')) {
+            button.classList.remove('small'); // Возвращаем исходное состояние
+        } else {
+            button.classList.add('small'); // Уменьшаем кнопку
+        }
+    });
+    
+    // Восстановление текста кнопки при наведении на окно
+    window.addEventListener('mouseover', function() {
+        var button = document.querySelector('.quiz-text');
+        
+        // Убираем класс .small, возвращая исходное состояние кнопки
+        if (button.classList.contains('small')) {
+            button.classList.remove('small');
+        }
+    });
+    
+
+    // Управление текстом при клике на mobile-collapse
+    document.getElementById('mobile-collapse').addEventListener('click', function() {
+        var quizText = document.querySelector('#start-quiz-btn .quiz-text');
+        var iconPlay = document.querySelector('#start-quiz-btn i.feather.icon-play');
+        
+        // Переключение видимости текста
+        if (quizText.style.display === "none") {
+            quizText.style.display = "inline";
+            iconPlay.classList.remove('small'); // Восстанавливаем исходный размер иконки
+        } else {
+            quizText.style.display = "none";
+            iconPlay.classList.add('small'); // Уменьшаем иконку
+        }
+    });
 </script>
 {% block script %}
 

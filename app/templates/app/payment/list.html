@@ -29,6 +29,7 @@
         <tr>
             <td>№</td>
             <td>Пользователь</td>
+            <td>E-mail</td>
             <td>Тариф</td>
             <td>Реферралов</td>
             <td>YooKassa ID</td>
@@ -43,6 +44,9 @@
                 <td>{{ forloop.counter }}</td>
                 <td>
                     {{ subscription_payment.subscription.user.profile.get_full_name }}
+                </td>
+                <td>
+                    {{ subscription_payment.subscription.user }}
                 </td>
                 <td>
                     {{ subscription_payment.subscription.get_type_display }}

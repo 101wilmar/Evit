@@ -22,9 +22,11 @@
 {% endblock %}
 
 {% block content %}
+{% if is_active_subscriptions or role == admin_role %}
     <h5 class="text-center">
         Чтобы получить годовую подписку осталось пригласить: <span class="text-warning">{{ count }} человек</span>
     </h5>
+    {% endif %}
     {% if referred_users.exists %}
         <table class="table table-bordered table-responsive-md table-hover table-sm text-center w-100">
             <thead>
@@ -57,6 +59,7 @@
             </tbody>
         </table>
     {% else %}
+    {% if is_active_subscriptions or role == admin_role %}
         <div class="text-black-50 text-center mt-4 w-100 m-auto d-block">
             <span class="d-block">У вас нет приглашенных пользователей</span>
             <button type="button" class="btn btn-success d-inline text-center mt-3"
@@ -64,5 +67,76 @@
                 <i class="fa fa-copy m-auto"></i>
             </button>
         </div>
+        {% else %}
+            <div class="card-body text-center">
+                При оплате <a href="{% url 'app:subscription_plans' %}">одного теста</a> открывается возможность получить годовую подписку бесплатно, если вы приведете 5 друзей
+            </div>
+            {% endif %}
+
     {% endif %}
+    {% block script %}
+    <script>
+        function copyReferralCode(referralCode) {
+            // Проверяем, поддерживается ли clipboard API
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(referralCode).then(function() {
+                    // Отображаем уведомление об успешном копировании
+                    showCustomNotification("Реферальная ссылка скопирована в буфер обмена. Отправьте ее любым удобным способом тем, кого хотите пригласить!");
+                }).catch(function(error) {
+                    // Обрабатываем ошибки
+                    console.error("Ошибка копирования: ", error);
+                    showCustomNotification("Не удалось скопировать ссылку. Попробуйте еще раз.");
+                });
+            } else {
+                // Если API не поддерживается, используем старый метод с input
+                var tempInput = document.createElement("input");
+                tempInput.style.position = "absolute";
+                tempInput.style.left = "-9999px";
+                tempInput.value = referralCode;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+    
+                // Отображаем уведомление
+                showCustomNotification("Реферальная ссылка скопирована в буфер обмена. Отправьте ее любым удобным способом тем, кого хотите пригласить!");
+            }
+        }
+    
+        function showCustomNotification(message) {
+            // Элемент уведомления
+            var notification = document.createElement("div");
+            notification.innerText = message;
+            notification.style.position = "fixed";
+            notification.style.top = "20px"; 
+            notification.style.left = "50%"; 
+            notification.style.transform = "translateX(-50%)"; 
+            notification.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+            notification.style.color = "#fff";
+            notification.style.padding = "10px 20px";
+            notification.style.borderRadius = "5px";
+            notification.style.zIndex = "1000";
+            notification.style.fontSize = "14px";
+            notification.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.5)";
+            notification.style.opacity = "0";
+            notification.style.transition = "opacity 0.5s";
+    
+            document.body.appendChild(notification);
+    
+            // Плавное появление уведомления
+            setTimeout(function() {
+                notification.style.opacity = "1";
+            }, 10);
+    
+            // Удаление уведомления через 4 секунды с плавным исчезновением
+            setTimeout(function() {
+                notification.style.opacity = "0";
+                setTimeout(function() {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 4000);
+        }
+    </script>
+
+{% endblock %}
 {% endblock %}

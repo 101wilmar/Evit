@@ -74,23 +74,38 @@ def calculate_life_expectancy(user_quiz) -> dict:
     }
 
 
-def _calculate_bmi_duration(weight: int, height: int) -> float:
-    height /= 100
-    BMI = weight / (height * height)
+#def _calculate_bmi_duration(weight: int, height: int) -> float:
+#    height /= 100
+#    BMI = weight / (height * height)
+#    BMI = round(BMI, 2)
+#    if BMI < 25:
+#        BMI_duration = 0
+#    elif 25 <= BMI < 30:
+#        BMI_duration = -2.4
+#    elif 30 <= BMI < 35:
+#        BMI_duration = -5.9
+#    elif 35 <= BMI < 40:
+#        BMI_duration = -7.8
+#    else:
+#        BMI_duration = -9.5
+
+#    return BMI_duration
+def _calculate_bmi_duration(weight: int, height: int) -> Decimal:
+    height = Decimal(height) / Decimal(100)
+    BMI = Decimal(weight) / (height * height)
     BMI = round(BMI, 2)
     if BMI < 25:
-        BMI_duration = 0
+        BMI_duration = Decimal(0)
     elif 25 <= BMI < 30:
-        BMI_duration = -2.4
+        BMI_duration = Decimal(-2.4)
     elif 30 <= BMI < 35:
-        BMI_duration = -5.9
+        BMI_duration = Decimal(-5.9)
     elif 35 <= BMI < 40:
-        BMI_duration = -7.8
+        BMI_duration = Decimal(-7.8)
     else:
-        BMI_duration = -9.5
+        BMI_duration = Decimal(-9.5)
 
     return BMI_duration
-
 
 def _generate_random_number(start: float, end: float, step: float) -> float:
     start = Decimal(start)

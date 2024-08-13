@@ -142,9 +142,11 @@ MEDIA_ROOT = BASE_DIR / MEDIA_URL
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.hosting.reg.ru'
-EMAIL_HOST_USER = 'e-vit@report.me'
-EMAIL_HOST_PASSWORD = '@C7z#gJ}pOyaczCJ'
+EMAIL_HOST = 'mail.report.me'  # Имя сервера исходящей почты (SMTP сервер)
+
+EMAIL_HOST_USER = 'e-vit@report.me'  # Ваш почтовый адрес
+EMAIL_HOST_PASSWORD = '@C7z#gJ}pOyaczCJ'  # Пароль от почтового ящика
+DEFAULT_FROM_EMAIL = 'e-vit@report.me'
 
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_HOST_USER = 'ansagankabdolla4@gmail.com'
