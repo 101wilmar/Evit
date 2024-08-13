@@ -14,7 +14,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+CSRF_TRUSTED_ORIGINS = ['https://e-vit.ru']
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -155,8 +155,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Конфигурация SMTP
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'mail.hosting.reg.ru'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
+
 EMAIL_HOST_USER = 'e-vit@report.me'
 EMAIL_HOST_PASSWORD = '@C7z#gJ}pOyaczCJ'  # Замени на реальный пароль
 
@@ -172,3 +173,8 @@ SERVER_EMAIL = EMAIL_HOST_USER
 # EMAIL_HOST_USER = 'e-vit@report.me'
 # EMAIL_HOST_PASSWORD = '@C7z#gJ}pOyaczCJ'
 #
+
+YKASSA_SHOP_ID = '429751'  # идентификатор магазина
+
+# Секретный ключ ЮKassa
+YKASSA_SECRET_KEY = 'live_OmugOw11lQ08dPsW96kMb27TYpH6m7Il1kUo_FTnBrI' 

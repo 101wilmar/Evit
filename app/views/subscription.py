@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.utils import timezone
 
+from Evit import settings
 from app.models import Subscription, SubscriptionPayment
 
 from yookassa import Configuration, Payment
@@ -28,10 +29,12 @@ def subscription_plans(request):
 
 @login_required
 def activate_subscription(request):
+    Configuration.account_id = settings.YKASSA_SHOP_ID
+    Configuration.secret_key = settings.YKASSA_SECRET_KEY
     user = request.user
     subscription_type = request.GET.get('type')
-
     now = datetime.datetime.now()
+
     if subscription_type == Subscription.TypeChoices.MONTHLY:
         end_datetime = now + datetime.timedelta(days=30)
         amount = 299
