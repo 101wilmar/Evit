@@ -62,7 +62,7 @@ def sign_up(request):
             send_mail(
                 'Evit | Активация аккаунта',
                 plain_message,
-                'e-vit@report.me',
+                'e-vit.chesnokov@yandex.ru',
                 # 'ansagankabdolla4@gmail.com',
                 [user.username],
                 fail_silently=False,
