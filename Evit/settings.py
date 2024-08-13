@@ -164,6 +164,7 @@ EMAIL_HOST_PASSWORD = 'wxgigjaxhoxlnzlf'  # Пароль от почты
 # Установка адресов по умолчанию
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'mail.report.me'
