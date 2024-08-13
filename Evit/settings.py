@@ -154,12 +154,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Конфигурация SMTP
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.hosting.reg.ru'
-EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-
-EMAIL_HOST_USER = 'e-vit@report.me'
-EMAIL_HOST_PASSWORD = '@C7z#gJ}pOyaczCJ'  # Замени на реальный пароль
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False  # Не используем TLS, так как используем SSL
+EMAIL_HOST_USER = 'e-vit.chesnokov@yandex.ru'  # Замени на свою почту
+EMAIL_HOST_PASSWORD = 'wxgigjaxhoxlnzlf'  # Пароль от почты
 
 # Установка адресов по умолчанию
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
